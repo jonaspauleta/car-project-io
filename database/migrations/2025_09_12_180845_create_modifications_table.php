@@ -15,7 +15,18 @@ return new class extends Migration
     {
         Schema::create('modifications', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('car_id')->constrained('cars');
+            $table->string('name');
+            $table->string('category'); // TODO create categories table
+            $table->text('notes')->nullable();
+            $table->string('brand')->nullable();
+            $table->string('vendor')->nullable();
+            $table->dateTime('installation_date')->nullable();
+            $table->float('cost')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+
+            // TODO fields to be added later
         });
     }
 

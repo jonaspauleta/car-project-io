@@ -15,7 +15,17 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('make');
+            $table->string('model');
+            $table->integer('year');
+            $table->string('nickname')->nullable();
+            $table->string('vin')->nullable();
+            $table->string('image_url')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
+
+            // TODO fields to be added later
         });
     }
 

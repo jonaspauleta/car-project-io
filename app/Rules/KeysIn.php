@@ -6,7 +6,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-final class KeysIn implements Rule
+class KeysIn implements Rule
 {
     /**
      * Create a new rule instance.

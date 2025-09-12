@@ -7,7 +7,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
-final class MakeRepository extends GeneratorCommand
+class MakeRepository extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
-final class HandleInertiaRequests extends Middleware
+class HandleInertiaRequests extends Middleware
 {
     /**
      * The root template that's loaded on the first page visit.

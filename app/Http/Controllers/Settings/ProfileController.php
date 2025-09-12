@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class ProfileController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Show the user's profile settings page.

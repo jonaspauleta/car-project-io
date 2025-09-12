@@ -12,6 +12,11 @@
 ## Packages I have used and not featured on this project
 # Sentry, spatie/laravel-pdf, hammerstone/sidecar, Laravel Cashier, Laravel Sail, Laravel Scout
 
+## What I didn't feature in this
+# Authorization
+# FE testing
+# End2end testing
+
 ## Commands
 # composer stan
 # composer pint
@@ -32,3 +37,5 @@
 ## I like to use Jobs/Events to process data on background
 
 ## OpenAPI specification for API routes
+
+## Using laravel boost

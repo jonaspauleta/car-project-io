@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-final class PaginatedAPIRequest extends BaseAPIRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class PaginatedAPIRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

@@ -15,7 +15,7 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class RegisteredUserController extends Controller
+class RegisteredUserController extends Controller
 {
     /**
      * Show the registration page.
