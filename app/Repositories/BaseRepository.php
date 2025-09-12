@@ -4,15 +4,23 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Http\Requests\PaginationRequest;
+use App\Http\Requests\PaginatedAPIRequest;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class BaseRepository
+/**
+ * @template TModel of Model
+ */
+class BaseRepository
 {
+    /**
+     * @param  QueryBuilder<TModel>|Builder<TModel>  $queryBuilder
+     * @return Paginator<int, TModel>
+     */
     public function paginate(
-        PaginationRequest $request,
+        PaginatedAPIRequest $request,
         QueryBuilder|Builder $queryBuilder,
     ): Paginator {
         return $queryBuilder
