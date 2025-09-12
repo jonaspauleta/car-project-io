@@ -1,4 +1,15 @@
-## Sentry, spatie/laravel-pdf, hammerstone/sidecar, Laravel Cashier, Laravel Sail
+## Tested development env
+# Macbook Pro 14" M3 Pro
+# Laravel Herd (with SSL on, "herd secure car-project-io")
+# PHP 8.4.12
+# Node 22.19.0
+# Chrome
+# SSL on
+# car-project-io.test domain
+# dbngin with MySQL 8.4.2
+
+## Packages I have used and not featured on this project
+# Sentry, spatie/laravel-pdf, hammerstone/sidecar, Laravel Cashier, Laravel Sail, Laravel Scout
 
 ## Commands
 # composer stan
