@@ -32,6 +32,8 @@ final class MakeRepository extends GeneratorCommand
 
     /**
      * Execute the console command.
+     *
+     * @return bool|int|null
      */
     public function handle()
     {
