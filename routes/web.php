@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('cars.')
         ->group(function () {
             Route::get('/', [CarController::class, 'index'])->name('index');
+            Route::get('/create', [CarController::class, 'create'])->name('create');
             Route::get('/{car}', [CarController::class, 'show'])->name('show');
             Route::get('/{car}/edit', [CarController::class, 'edit'])->name('edit');
             Route::post('/', [CarController::class, 'store'])->name('store');
@@ -30,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('modifications.')
                 ->group(function () {
                     Route::get('/', [ModificationController::class, 'index'])->name('index');
+                    Route::get('/create', [ModificationController::class, 'create'])->name('create');
                     Route::get('/{modification}', [ModificationController::class, 'show'])->name('show');
                     Route::get('/{modification}/edit', [ModificationController::class, 'edit'])->name('edit');
                     Route::post('/', [ModificationController::class, 'store'])->name('store');
@@ -41,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::prefix('{car}/maintenance')
             ->group(function () {
                 Route::get('/', [MaintenanceController::class, 'index'])->name('index');
+                Route::get('/create', [MaintenanceController::class, 'create'])->name('create');
                 Route::get('/{maintenance}', [MaintenanceController::class, 'show'])->name('show');
                 Route::get('/{maintenance}/edit', [MaintenanceController::class, 'edit'])->name('edit');
                 Route::post('/', [MaintenanceController::class, 'store'])->name('store');
@@ -51,6 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::prefix('{car}/setup')
             ->group(function () {
                 Route::get('/', [SetupController::class, 'index'])->name('index');
+                Route::get('/create', [SetupController::class, 'create'])->name('create');
                 Route::get('/{setup}', [SetupController::class, 'show'])->name('show');
                 Route::get('/{setup}/edit', [SetupController::class, 'edit'])->name('edit');
                 Route::post('/', [SetupController::class, 'store'])->name('store');
