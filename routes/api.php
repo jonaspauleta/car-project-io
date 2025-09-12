@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\CarController;
-use App\Http\Controllers\ModificationController;
+use App\Http\Controllers\API\CarController;
+use App\Http\Controllers\API\ModificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
