@@ -86,7 +86,8 @@
         "ide-helper": "php artisan ide-helper:generate",
         "stan": "./vendor/bin/phpstan analyse --memory-limit=2G",
         "pint": "./vendor/bin/pint",
-        "swagger": "php artisan l5-swagger:generate"
+        "swagger": "php artisan l5-swagger:generate",
+        "wayfinder": "php artisan wayfinder:generate"
     },
     "extra": {
         "laravel": {
