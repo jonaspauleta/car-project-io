@@ -4,6 +4,7 @@
 # PHP 8.4.12
 # Node 22.19.0
 # Chrome
+# development on Cursor
 # SSL on
 # car-project-io.test domain
 # dbngin with MySQL 8.4.2
