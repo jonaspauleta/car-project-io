@@ -6,7 +6,7 @@ return [
     /*
      * The default pagination size
      */
-    'pagination_size' => 10,
+    'pagination_size' => 6,
 
     /*
      * The maximum pagination size

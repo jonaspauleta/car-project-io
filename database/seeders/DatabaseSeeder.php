@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'car_id' => $car->id,
         ]);
 
-        $car = Car::factory()->count(5)->create([
+        $car = Car::factory()->count(15)->create([
             'user_id' => $user->id,
         ]);
     }
