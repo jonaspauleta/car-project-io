@@ -14,7 +14,8 @@ Route::middleware('auth:sanctum')
             return $request->user();
         })->name('user');
 
-        Route::prefix('cars')
+        Route::scopeBindings()
+            ->prefix('cars')
             ->name('cars.')
             ->group(function () {
                 Route::get('/', [CarController::class, 'index'])->name('index');
@@ -34,23 +35,23 @@ Route::middleware('auth:sanctum')
                     });
 
                 /* TODO ideas for later
-            Route::prefix('{car}/maintenance')
-            ->group(function () {
-                Route::get('/', [MaintenanceController::class, 'index'])->name('index');
-                Route::get('/{maintenance}', [MaintenanceController::class, 'show'])->name('show');
-                Route::post('/', [MaintenanceController::class, 'store'])->name('store');
-                Route::put('/{maintenance}', [MaintenanceController::class, 'update'])->name('update');
-                Route::delete('/{maintenance}', [MaintenanceController::class, 'destroy'])->name('destroy');
-            })->name('maintenance.');
+                Route::prefix('{car}/maintenance')
+                ->group(function () {
+                    Route::get('/', [MaintenanceController::class, 'index'])->name('index');
+                    Route::get('/{maintenance}', [MaintenanceController::class, 'show'])->name('show');
+                    Route::post('/', [MaintenanceController::class, 'store'])->name('store');
+                    Route::put('/{maintenance}', [MaintenanceController::class, 'update'])->name('update');
+                    Route::delete('/{maintenance}', [MaintenanceController::class, 'destroy'])->name('destroy');
+                })->name('maintenance.');
 
-            Route::prefix('{car}/setup')
-            ->group(function () {
-                Route::get('/', [SetupController::class, 'index'])->name('index');
-                Route::get('/{setup}', [SetupController::class, 'show'])->name('show');
-                Route::post('/', [SetupController::class, 'store'])->name('store');
-                Route::put('/{setup}', [SetupController::class, 'update'])->name('update');
-                Route::delete('/{setup}', [SetupController::class, 'destroy'])->name('destroy');
-            })->name('setup.');
-            */
+                Route::prefix('{car}/setup')
+                ->group(function () {
+                    Route::get('/', [SetupController::class, 'index'])->name('index');
+                    Route::get('/{setup}', [SetupController::class, 'show'])->name('show');
+                    Route::post('/', [SetupController::class, 'store'])->name('store');
+                    Route::put('/{setup}', [SetupController::class, 'update'])->name('update');
+                    Route::delete('/{setup}', [SetupController::class, 'destroy'])->name('destroy');
+                })->name('setup.');
+                */
             });
     });

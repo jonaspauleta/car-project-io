@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Car;
 use Illuminate\Http\Request;
-use App\Http\Resources\JsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Class CarResource
@@ -12,7 +14,7 @@ use App\Http\Resources\JsonResource;
  * @mixin Car
  */
 class CarResource extends JsonResource
-{    
+{
     /**
      * Transform the resource into an array.
      *
@@ -21,14 +23,14 @@ class CarResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->whenSelected('id'), 
-            'make' => $this->whenSelected('make'),
-            'model' => $this->whenSelected('model'),
-            'year' => $this->whenSelected('year'),
-            'nickname' => $this->whenSelected('nickname'),
-            'vin' => $this->whenSelected('vin'),
-            'image_url' => $this->whenSelected('image_url'),
-            'notes' => $this->whenSelected('notes'),
+            'id' => $this->id,
+            'make' => $this->make,
+            'model' => $this->model,
+            'year' => $this->year,
+            'nickname' => $this->nickname,
+            'vin' => $this->vin,
+            'image_url' => $this->image_url,
+            'notes' => $this->notes,
             'user' => UserResource::make($this->whenLoaded('user')),
             'modifications' => ModificationResource::collection($this->whenLoaded('modifications')),
         ];

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Modification;
 use Illuminate\Http\Request;
-use App\Http\Resources\JsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Class ModificationResource

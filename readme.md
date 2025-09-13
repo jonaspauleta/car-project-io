@@ -16,6 +16,8 @@
 # Authorization
 # FE testing
 # End2end testing
+# Laravel Modules
+# Service layer
 
 ## Commands
 # composer stan

@@ -1,0 +1,1472 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Car API",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "https://car-project-io.test"
+        }
+    ],
+    "paths": {
+        "/api/cars": {
+            "get": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "List all cars",
+                "description": "Retrieve a paginated list of cars with optional filtering, sorting, and including related data",
+                "operationId": "158b081c3b62cbad1d47a7baf9ed52ac",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort field (id, make, year)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "id",
+                                "make",
+                                "year"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "filter[make]",
+                        "in": "query",
+                        "description": "Filter by car make",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[model]",
+                        "in": "query",
+                        "description": "Filter by car model",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[year]",
+                        "in": "query",
+                        "description": "Filter by car year",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[nickname]",
+                        "in": "query",
+                        "description": "Filter by car nickname",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[vin]",
+                        "in": "query",
+                        "description": "Filter by VIN",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "include[]",
+                        "in": "query",
+                        "description": "Include related data (user, modifications). Can be used multiple times: include[]=user&include[]=modifications",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "user",
+                                    "modifications"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CarResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Create a new car",
+                "description": "Create a new car for the authenticated user",
+                "operationId": "581b89650bc67a7ae22937830482fcb7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "make",
+                                    "model",
+                                    "year"
+                                ],
+                                "properties": {
+                                    "make": {
+                                        "description": "Car manufacturer",
+                                        "type": "string",
+                                        "example": "Toyota"
+                                    },
+                                    "model": {
+                                        "description": "Car model",
+                                        "type": "string",
+                                        "example": "Camry"
+                                    },
+                                    "year": {
+                                        "description": "Manufacturing year",
+                                        "type": "integer",
+                                        "example": 2020
+                                    },
+                                    "nickname": {
+                                        "description": "Optional nickname for the car",
+                                        "type": "string",
+                                        "example": "My Daily Driver"
+                                    },
+                                    "vin": {
+                                        "description": "Vehicle Identification Number",
+                                        "type": "string",
+                                        "example": "1HGBH41JXMN109186"
+                                    },
+                                    "notes": {
+                                        "description": "Additional notes about the car",
+                                        "type": "string",
+                                        "example": "Great condition, low mileage"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Car created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CarResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cars/{car}": {
+            "get": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Get a specific car",
+                "description": "Retrieve details of a specific car by ID",
+                "operationId": "0078251dde09aab03b4bbb51d01fc7b5",
+                "parameters": [
+                    {
+                        "name": "car",
+                        "in": "path",
+                        "description": "Car ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include[]",
+                        "in": "query",
+                        "description": "Include related data (user, modifications). Can be used multiple times: include[]=user&include[]=modifications",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "user",
+                                    "modifications"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CarResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Car not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Car] {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Update a car",
+                "description": "Update an existing car's details",
+                "operationId": "0d56037ad4280b6eae05fcbd3808b1eb",
+                "parameters": [
+                    {
+                        "name": "car",
+                        "in": "path",
+                        "description": "Car ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "make": {
+                                        "description": "Car manufacturer",
+                                        "type": "string",
+                                        "example": "Toyota"
+                                    },
+                                    "model": {
+                                        "description": "Car model",
+                                        "type": "string",
+                                        "example": "Camry"
+                                    },
+                                    "year": {
+                                        "description": "Manufacturing year",
+                                        "type": "integer",
+                                        "example": 2020
+                                    },
+                                    "nickname": {
+                                        "description": "Optional nickname for the car",
+                                        "type": "string",
+                                        "example": "My Daily Driver"
+                                    },
+                                    "vin": {
+                                        "description": "Vehicle Identification Number",
+                                        "type": "string",
+                                        "example": "1HGBH41JXMN109186"
+                                    },
+                                    "image_url": {
+                                        "description": "URL to car image",
+                                        "type": "string",
+                                        "example": "https://example.com/car.jpg"
+                                    },
+                                    "notes": {
+                                        "description": "Additional notes about the car",
+                                        "type": "string",
+                                        "example": "Great condition, low mileage"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Car updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CarResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Car not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Car] {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Delete a car",
+                "description": "Delete a car from the system",
+                "operationId": "fe3617e4c4e5d06495393cf8345022f3",
+                "parameters": [
+                    {
+                        "name": "car",
+                        "in": "path",
+                        "description": "Car ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Car deleted successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Car not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Car] {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cars/{car}/modifications": {
+            "get": {
+                "tags": [
+                    "Modifications"
+                ],
+                "summary": "List all modifications for a car",
+                "description": "Retrieve a paginated list of modifications for a specific car with optional filtering, sorting, and including related data",
+                "operationId": "5b63e9ed761a6d8c55e541ac95192614",
+                "parameters": [
+                    {
+                        "name": "car",
+                        "in": "path",
+                        "description": "Car ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort field (id, name, category, cost, installation_date)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "id",
+                                "name",
+                                "category",
+                                "cost",
+                                "installation_date"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by modification name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[category]",
+                        "in": "query",
+                        "description": "Filter by modification category",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[brand]",
+                        "in": "query",
+                        "description": "Filter by modification brand",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[vendor]",
+                        "in": "query",
+                        "description": "Filter by modification vendor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[is_active]",
+                        "in": "query",
+                        "description": "Filter by active status",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "include[]",
+                        "in": "query",
+                        "description": "Include related data (car). Can be used multiple times: include[]=car",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "car"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ModificationResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Modifications"
+                ],
+                "summary": "Create a new modification for a car",
+                "description": "Create a new modification for a specific car",
+                "operationId": "bc55e88fad4e8e00329eae6b6bf336b1",
+                "parameters": [
+                    {
+                        "name": "car",
+                        "in": "path",
+                        "description": "Car ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "category"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Modification name",
+                                        "type": "string",
+                                        "example": "Cold Air Intake"
+                                    },
+                                    "category": {
+                                        "description": "Modification category",
+                                        "type": "string",
+                                        "example": "Engine"
+                                    },
+                                    "notes": {
+                                        "description": "Additional notes about the modification",
+                                        "type": "string",
+                                        "example": "Increases airflow and performance"
+                                    },
+                                    "brand": {
+                                        "description": "Brand of the modification",
+                                        "type": "string",
+                                        "example": "K&N"
+                                    },
+                                    "vendor": {
+                                        "description": "Vendor where purchased",
+                                        "type": "string",
+                                        "example": "AutoZone"
+                                    },
+                                    "installation_date": {
+                                        "description": "Date when modification was installed",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2023-06-15T10:30:00Z"
+                                    },
+                                    "cost": {
+                                        "description": "Cost of the modification",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 299.99
+                                    },
+                                    "is_active": {
+                                        "description": "Whether the modification is currently active",
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Modification created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ModificationResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cars/{car}/modifications/{modification}": {
+            "get": {
+                "tags": [
+                    "Modifications"
+                ],
+                "summary": "Get a specific modification for a car",
+                "description": "Retrieve details of a specific modification for a car by ID",
+                "operationId": "7ad259e55c66296cefe173828185f79d",
+                "parameters": [
+                    {
+                        "name": "car",
+                        "in": "path",
+                        "description": "Car ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "modification",
+                        "in": "path",
+                        "description": "Modification ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "include[]",
+                        "in": "query",
+                        "description": "Include related data (car). Can be used multiple times: include[]=car",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "car"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ModificationResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modification not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Modification] {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Modifications"
+                ],
+                "summary": "Update a modification for a car",
+                "description": "Update an existing modification's details for a specific car",
+                "operationId": "d272152f22dffa8555124987ada4c8fd",
+                "parameters": [
+                    {
+                        "name": "car",
+                        "in": "path",
+                        "description": "Car ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "modification",
+                        "in": "path",
+                        "description": "Modification ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Modification name",
+                                        "type": "string",
+                                        "example": "Cold Air Intake"
+                                    },
+                                    "category": {
+                                        "description": "Modification category",
+                                        "type": "string",
+                                        "example": "Engine"
+                                    },
+                                    "notes": {
+                                        "description": "Additional notes about the modification",
+                                        "type": "string",
+                                        "example": "Increases airflow and performance"
+                                    },
+                                    "brand": {
+                                        "description": "Brand of the modification",
+                                        "type": "string",
+                                        "example": "K&N"
+                                    },
+                                    "vendor": {
+                                        "description": "Vendor where purchased",
+                                        "type": "string",
+                                        "example": "AutoZone"
+                                    },
+                                    "installation_date": {
+                                        "description": "Date when modification was installed",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2023-06-15T10:30:00Z"
+                                    },
+                                    "cost": {
+                                        "description": "Cost of the modification",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 299.99
+                                    },
+                                    "is_active": {
+                                        "description": "Whether the modification is currently active",
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Modification updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ModificationResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modification not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Modification] {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Modifications"
+                ],
+                "summary": "Delete a modification for a car",
+                "description": "Delete a modification from a specific car",
+                "operationId": "11b1df11e151b859965705b9cd2537d7",
+                "parameters": [
+                    {
+                        "name": "car",
+                        "in": "path",
+                        "description": "Car ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "modification",
+                        "in": "path",
+                        "description": "Modification ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Modification deleted successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modification not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Modification] {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CarResource": {
+                "properties": {
+                    "id": {
+                        "description": "Car ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "make": {
+                        "description": "Car manufacturer",
+                        "type": "string",
+                        "example": "Toyota"
+                    },
+                    "model": {
+                        "description": "Car model",
+                        "type": "string",
+                        "example": "Camry"
+                    },
+                    "year": {
+                        "description": "Manufacturing year",
+                        "type": "integer",
+                        "example": 2020
+                    },
+                    "nickname": {
+                        "description": "Optional nickname for the car",
+                        "type": "string",
+                        "example": "My Daily Driver",
+                        "nullable": true
+                    },
+                    "vin": {
+                        "description": "Vehicle Identification Number",
+                        "type": "string",
+                        "example": "1HGBH41JXMN109186",
+                        "nullable": true
+                    },
+                    "image_url": {
+                        "description": "URL to car image",
+                        "type": "string",
+                        "example": "https://example.com/car.jpg",
+                        "nullable": true
+                    },
+                    "notes": {
+                        "description": "Additional notes about the car",
+                        "type": "string",
+                        "example": "Great condition, low mileage",
+                        "nullable": true
+                    },
+                    "user": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/UserResource"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "modifications": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ModificationResource"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "User name",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string",
+                        "example": "john@example.com"
+                    }
+                },
+                "type": "object"
+            },
+            "ModificationResource": {
+                "properties": {
+                    "id": {
+                        "description": "Modification ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Modification name",
+                        "type": "string",
+                        "example": "Performance Exhaust"
+                    },
+                    "description": {
+                        "description": "Modification description",
+                        "type": "string",
+                        "example": "High-performance exhaust system",
+                        "nullable": true
+                    },
+                    "cost": {
+                        "description": "Modification cost",
+                        "type": "number",
+                        "format": "float",
+                        "example": 599.99,
+                        "nullable": true
+                    },
+                    "installed_at": {
+                        "description": "Installation date",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-06-15",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationLinks": {
+                "properties": {
+                    "first": {
+                        "description": "Link to first page",
+                        "type": "string",
+                        "example": "/api/cars?page=1"
+                    },
+                    "last": {
+                        "description": "Link to last page",
+                        "type": "string",
+                        "example": "/api/cars?page=10"
+                    },
+                    "prev": {
+                        "description": "Link to previous page",
+                        "type": "string",
+                        "example": "/api/cars?page=1",
+                        "nullable": true
+                    },
+                    "next": {
+                        "description": "Link to next page",
+                        "type": "string",
+                        "example": "/api/cars?page=3",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationMeta": {
+                "properties": {
+                    "current_page": {
+                        "description": "Current page number",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "from": {
+                        "description": "First item number on current page",
+                        "type": "integer",
+                        "example": 11
+                    },
+                    "last_page": {
+                        "description": "Last page number",
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "path": {
+                        "description": "Base path for pagination links",
+                        "type": "string",
+                        "example": "/api/cars"
+                    },
+                    "per_page": {
+                        "description": "Items per page",
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "to": {
+                        "description": "Last item number on current page",
+                        "type": "integer",
+                        "example": 20
+                    },
+                    "total": {
+                        "description": "Total number of items",
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Cars",
+            "description": "Cars"
+        },
+        {
+            "name": "Modifications",
+            "description": "Modifications"
+        }
+    ]
+}

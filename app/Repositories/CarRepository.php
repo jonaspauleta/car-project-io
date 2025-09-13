@@ -13,11 +13,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class CarRepository extends BaseRepository
 {
-    const ALLOWED_INCLUDES = ['user', 'modifications'];
+    public const ALLOWED_INCLUDES = ['user', 'modifications'];
 
-    const ALLOWED_SORTS = ['id', 'make', 'year'];
+    public const ALLOWED_SORTS = ['id', 'make', 'year'];
 
-    const ALLOWED_FILTERS = ['make', 'model', 'year', 'nickname', 'vin'];
+    public const ALLOWED_FILTERS = ['make', 'model', 'year', 'nickname', 'vin'];
 
     /**
      * Get all cars.
@@ -28,9 +28,10 @@ class CarRepository extends BaseRepository
         ListCarsRequest $request,
     ): Paginator {
         $query = QueryBuilder::for(Car::class)
+            ->where('user_id', auth()->id())
             ->defaultSort('id')
-            //->allowedSorts($request->allowedSorts)
-            //->allowedFilters($request->allowedFilters)
+            ->allowedSorts(self::ALLOWED_SORTS)
+            ->allowedFilters(self::ALLOWED_FILTERS)
             ->allowedIncludes(self::ALLOWED_INCLUDES);
 
         return $this->paginate($request, $query);
@@ -44,6 +45,7 @@ class CarRepository extends BaseRepository
         Car $car,
     ): ?Car {
         return QueryBuilder::for(Car::class)
+            ->where('user_id', auth()->id())
             ->allowedIncludes(self::ALLOWED_INCLUDES)
             ->find($car->id);
     }

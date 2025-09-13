@@ -26,7 +26,7 @@ class UpdateCarRequest extends FormRequest
         return [
             'make' => ['nullable', 'string'],
             'model' => ['nullable', 'string'],
-            'year' => ['required', 'integer'],
+            'year' => ['nullable', 'integer'],
             'nickname' => ['nullable', 'string'],
             'vin' => ['nullable', 'string'],
             'image_url' => ['nullable', 'string'],

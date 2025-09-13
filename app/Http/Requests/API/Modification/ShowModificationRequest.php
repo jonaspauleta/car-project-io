@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\API\Car;
+namespace App\Http\Requests\API\Modification;
 
+use App\Http\Requests\Traits\Includable;
+use App\Repositories\ModificationRepository;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCarRequest extends FormRequest
+class ShowModificationRequest extends FormRequest
 {
+    use Includable;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -24,13 +28,7 @@ class CreateCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'make' => ['required', 'string'],
-            'model' => ['required', 'string'],
-            'year' => ['required', 'integer'],
-            'nickname' => ['nullable', 'string'],
-            'vin' => ['nullable', 'string'],
-            // 'image_url' => ['nullable', 'string'], TODO: add validation for image url
-            'notes' => ['nullable', 'string'],
+            ...$this->allowedIncludes(ModificationRepository::ALLOWED_INCLUDES),
         ];
     }
 }

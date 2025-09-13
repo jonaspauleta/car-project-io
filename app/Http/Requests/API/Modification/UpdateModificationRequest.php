@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\API\Car;
+namespace App\Http\Requests\API\Modification;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCarRequest extends FormRequest
+class UpdateModificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,15 @@ class CreateCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'make' => ['required', 'string'],
-            'model' => ['required', 'string'],
-            'year' => ['required', 'integer'],
-            'nickname' => ['nullable', 'string'],
-            'vin' => ['nullable', 'string'],
-            // 'image_url' => ['nullable', 'string'], TODO: add validation for image url
+            'car_id' => ['nullable', 'integer', 'exists:cars,id'],
+            'name' => ['nullable', 'string'],
+            'category' => ['nullable', 'string'],
             'notes' => ['nullable', 'string'],
+            'brand' => ['nullable', 'string'],
+            'vendor' => ['nullable', 'string'],
+            'installation_date' => ['nullable', 'date'],
+            'cost' => ['nullable', 'numeric', 'min:0'],
+            'is_active' => ['nullable', 'boolean'],
         ];
     }
 }

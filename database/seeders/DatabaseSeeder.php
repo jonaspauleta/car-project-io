@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Car;
+use App\Models\Modification;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,8 +23,17 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Car::factory()->count(10)->create([
+        $car = Car::factory()->create([
             'user_id' => $user->id,
         ]);
+
+        Modification::factory()->count(10)->create([
+            'car_id' => $car->id,
+        ]);
+
+        $car = Car::factory()->count(5)->create([
+            'user_id' => $user->id,
+        ]);
+
     }
 }
