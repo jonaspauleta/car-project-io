@@ -48,6 +48,26 @@ describe('CarController store method', function () {
         ]);
     });
 
+    it('creates a new car with image upload', function () {
+        $this->actingAs($this->user);
+
+        $carData = [
+            'make' => 'Toyota',
+            'model' => 'Camry',
+            'year' => 2020,
+            'image' => Illuminate\Http\UploadedFile::fake()->image('car.jpg', 800, 600),
+        ];
+
+        $response = $this->post('/cars', $carData);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Car created successfully.');
+
+        $car = Car::where('user_id', $this->user->id)->first();
+        expect($car->image_url)->not->toBeNull();
+        expect($car->image_url)->toContain('cars/');
+    });
+
     it('creates a new car with minimal required data', function () {
         $this->actingAs($this->user);
 
@@ -169,6 +189,47 @@ describe('CarController store method', function () {
         ]);
 
         $response->assertSessionHasErrors(['notes']);
+    });
+
+    it('validates image file type', function () {
+        $this->actingAs($this->user);
+
+        $response = $this->post('/cars', [
+            'make' => 'Toyota',
+            'model' => 'Camry',
+            'year' => 2020,
+            'image' => Illuminate\Http\UploadedFile::fake()->create('document.pdf', 1000),
+        ]);
+
+        $response->assertSessionHasErrors(['image']);
+    });
+
+    it('validates image file size', function () {
+        $this->actingAs($this->user);
+
+        // Create a fake image that's larger than 10MB
+        $response = $this->post('/cars', [
+            'make' => 'Toyota',
+            'model' => 'Camry',
+            'year' => 2020,
+            'image' => Illuminate\Http\UploadedFile::fake()->image('large.jpg', 800, 600)->size(11000), // 11MB
+        ]);
+
+        $response->assertSessionHasErrors(['image']);
+    });
+
+    it('accepts valid image files', function () {
+        $this->actingAs($this->user);
+
+        $response = $this->post('/cars', [
+            'make' => 'Toyota',
+            'model' => 'Camry',
+            'year' => 2020,
+            'image' => Illuminate\Http\UploadedFile::fake()->image('car.jpg', 800, 600)->size(5000), // 5MB
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Car created successfully.');
     });
 
     it('redirects to car show page after creation', function () {

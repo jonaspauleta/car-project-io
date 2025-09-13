@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
-use App\Http\Requests\Modification\ListModificationsRequest;
-use App\Http\Requests\Modification\StoreModificationRequest;
-use App\Http\Requests\Modification\UpdateModificationRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Frontend\Modification\ListModificationsRequest;
+use App\Http\Requests\Frontend\Modification\StoreModificationRequest;
+use App\Http\Requests\Frontend\Modification\UpdateModificationRequest;
 use App\Models\Car;
 use App\Models\Modification;
 use App\Repositories\ModificationRepository;

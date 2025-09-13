@@ -69,4 +69,42 @@ describe('CarController show method', function () {
                 ->where('car.modifications.1.id', $modification1->id)
             );
     });
+
+    it('shows car with image', function () {
+        $this->actingAs($this->user);
+
+        $car = Car::factory()->create([
+            'user_id' => $this->user->id,
+            'image_url' => 'cars/test-image.jpg',
+        ]);
+
+        $response = $this->get("/cars/{$car->id}");
+
+        $response->assertSuccessful()
+            ->assertInertia(fn ($page) => $page
+                ->component('Cars/Show')
+                ->has('car')
+                ->where('car.id', $car->id)
+                ->where('car.image_url', route('cars.image', $car))
+            );
+    });
+
+    it('shows car without image', function () {
+        $this->actingAs($this->user);
+
+        $car = Car::factory()->create([
+            'user_id' => $this->user->id,
+            'image_url' => null,
+        ]);
+
+        $response = $this->get("/cars/{$car->id}");
+
+        $response->assertSuccessful()
+            ->assertInertia(fn ($page) => $page
+                ->component('Cars/Show')
+                ->has('car')
+                ->where('car.id', $car->id)
+                ->where('car.image_url', null)
+            );
+    });
 });

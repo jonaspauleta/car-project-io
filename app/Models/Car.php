@@ -126,8 +126,18 @@ class Car extends Model
             return $value;
         }
 
-        // If it's a storage path, return the secure route URL
-        return route('api.cars.image', ['car' => $this->id]);
+        // If it's a storage path, return the secure route URL with cache-busting
+        $imagePath = $this->getRawOriginal('image_url');
+        $cacheBuster = null;
+
+        if ($imagePath && Storage::disk('private')->exists($imagePath)) {
+            // Use the file's last modified time as cache buster
+            $cacheBuster = Storage::disk('private')->lastModified($imagePath);
+        }
+
+        $url = route('cars.image', ['car' => $this->id]);
+
+        return $cacheBuster ? $url.'?v='.$cacheBuster : $url;
     }
 
     /**

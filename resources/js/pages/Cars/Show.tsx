@@ -87,8 +87,32 @@ export default function CarShow({ car }: CarShowProps) {
                 </div>
 
                 <div className="grid gap-6 lg:grid-cols-3">
+                    {/* Car Image */}
+                    {car.image_url && (
+                        <div className="lg:col-span-2">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Car Photo</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="relative h-96 w-full overflow-hidden rounded-lg">
+                                        <img
+                                            src={car.image_url}
+                                            alt={car.nickname || `${car.make} ${car.model}`}
+                                            className="h-full w-full object-cover"
+                                            onError={(e) => {
+                                                const target = e.target as HTMLImageElement;
+                                                target.style.display = 'none';
+                                            }}
+                                        />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    )}
+
                     {/* Car Details */}
-                    <div className="lg:col-span-1">
+                    <div className={car.image_url ? 'lg:col-span-1' : 'lg:col-span-3'}>
                         <Card>
                             <CardHeader>
                                 <CardTitle>Car Details</CardTitle>

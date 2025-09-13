@@ -60,9 +60,10 @@ export default function CarEdit({ car }: CarEditProps) {
                             <CardDescription>Update the details for your car</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <Form action={cars.update.url(car)} method="put" className="space-y-6">
+                            <Form action={cars.update.url(car)} method="post" encType="multipart/form-data" className="space-y-6">
                                 {({ processing, errors }) => (
-                                    <>
+                                    <div>
+                                        <input type="hidden" name="_method" value="put" />
                                         <div className="grid gap-6 md:grid-cols-2">
                                             <div className="space-y-2">
                                                 <Label htmlFor="make">Make *</Label>
@@ -106,6 +107,37 @@ export default function CarEdit({ car }: CarEditProps) {
                                         </div>
 
                                         <div className="space-y-2">
+                                            <Label htmlFor="image">Car Image</Label>
+                                            {car.image_url && (
+                                                <div className="mb-3">
+                                                    <p className="mb-2 text-sm text-muted-foreground">Current image:</p>
+                                                    <div className="relative h-32 w-48 overflow-hidden rounded-md border">
+                                                        <img
+                                                            src={car.image_url}
+                                                            alt={car.nickname || `${car.make} ${car.model}`}
+                                                            className="h-full w-full object-cover"
+                                                            onError={(e) => {
+                                                                const target = e.target as HTMLImageElement;
+                                                                target.style.display = 'none';
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <Input
+                                                id="image"
+                                                name="image"
+                                                type="file"
+                                                accept="image/*"
+                                                className="file:mr-4 file:rounded-md file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/80"
+                                            />
+                                            <InputError message={errors.image} />
+                                            <p className="text-xs text-muted-foreground">
+                                                Upload a new photo of your car (JPEG, PNG, JPG, GIF, WebP, max 10MB)
+                                            </p>
+                                        </div>
+
+                                        <div className="space-y-2">
                                             <Label htmlFor="vin">VIN (Vehicle Identification Number)</Label>
                                             <Input
                                                 id="vin"
@@ -140,7 +172,7 @@ export default function CarEdit({ car }: CarEditProps) {
                                                 </Button>
                                             </Link>
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                             </Form>
                         </CardContent>

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Modification;
+namespace App\Http\Requests\Frontend\Car;
 
 use App\Http\Requests\PaginatedRequest;
 use App\Http\Requests\Traits\Filterable;
 use App\Http\Requests\Traits\Searchable;
 use App\Http\Requests\Traits\Sortable;
-use App\Repositories\ModificationRepository;
+use App\Repositories\CarRepository;
 
-class ListModificationsRequest extends PaginatedRequest
+class ListCarsRequest extends PaginatedRequest
 {
     use Filterable, Searchable, Sortable;
 
@@ -31,8 +31,8 @@ class ListModificationsRequest extends PaginatedRequest
     {
         return [
             ...$this->allowsSearch(),
-            ...$this->allowedSorts(ModificationRepository::ALLOWED_SORTS),
-            ...$this->allowedFilters(ModificationRepository::ALLOWED_FILTERS),
+            ...$this->allowedSorts(CarRepository::ALLOWED_SORTS),
+            ...$this->allowedFilters(CarRepository::ALLOWED_FILTERS),
         ];
     }
 }

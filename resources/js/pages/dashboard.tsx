@@ -145,12 +145,28 @@ export default function Dashboard({ stats, recentCars, recentModifications, cars
                                 <div className="space-y-4">
                                     {recentCars.map((car) => (
                                         <div key={car.id} className="flex items-center justify-between rounded-lg border p-4">
-                                            <div className="flex-1">
-                                                <h4 className="font-semibold">{car.nickname || `${car.make} ${car.model}`}</h4>
-                                                <p className="text-sm text-muted-foreground">
-                                                    {car.make} {car.model} ({car.year})
-                                                </p>
-                                                <p className="text-xs text-muted-foreground">Added {formatDate(car.created_at)}</p>
+                                            <div className="flex flex-1 items-center gap-4">
+                                                {/* Car Image */}
+                                                {car.image_url && (
+                                                    <div className="relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-md">
+                                                        <img
+                                                            src={car.image_url}
+                                                            alt={car.nickname || `${car.make} ${car.model}`}
+                                                            className="h-full w-full object-cover"
+                                                            onError={(e) => {
+                                                                const target = e.target as HTMLImageElement;
+                                                                target.style.display = 'none';
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )}
+                                                <div className="flex-1">
+                                                    <h4 className="font-semibold">{car.nickname || `${car.make} ${car.model}`}</h4>
+                                                    <p className="text-sm text-muted-foreground">
+                                                        {car.make} {car.model} ({car.year})
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">Added {formatDate(car.created_at)}</p>
+                                                </div>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <Badge variant="secondary">{car.modifications_count || 0} mods</Badge>

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Car;
+namespace App\Http\Requests\Frontend\Car;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCarRequest extends FormRequest
+class StoreCarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,12 @@ class UpdateCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'make' => ['sometimes', 'required', 'string', 'max:255'],
-            'model' => ['sometimes', 'required', 'string', 'max:255'],
-            'year' => ['sometimes', 'required', 'integer', 'min:1900', 'max:'.(date('Y') + 1)],
+            'make' => ['required', 'string', 'max:255'],
+            'model' => ['required', 'string', 'max:255'],
+            'year' => ['required', 'integer', 'min:1900', 'max:'.(date('Y') + 1)],
             'nickname' => ['nullable', 'string', 'max:255'],
             'vin' => ['nullable', 'string', 'max:17', 'min:17'],
+            'image' => ['nullable', 'image', 'max:10240'], // Max 10MB
             'notes' => ['nullable', 'string', 'max:1000'],
         ];
     }
@@ -48,6 +49,8 @@ class UpdateCarRequest extends FormRequest
             'year.max' => 'The car year cannot be in the future.',
             'vin.min' => 'The VIN must be exactly 17 characters.',
             'vin.max' => 'The VIN must be exactly 17 characters.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.max' => 'The image size cannot exceed 10MB.',
             'notes.max' => 'The notes cannot exceed 1000 characters.',
         ];
     }

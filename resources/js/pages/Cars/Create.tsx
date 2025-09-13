@@ -52,7 +52,7 @@ export default function CarCreate() {
                             <CardDescription>Enter the details for your new car</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <Form action={cars.store.url()} method="post" className="space-y-6">
+                            <Form action={cars.store.url()} method="post" encType="multipart/form-data" className="space-y-6">
                                 {({ processing, errors }) => (
                                     <>
                                         <div className="grid gap-6 md:grid-cols-2">
@@ -89,6 +89,21 @@ export default function CarCreate() {
                                                 <Input id="nickname" name="nickname" placeholder="e.g., My Daily Driver" />
                                                 <InputError message={errors.nickname} />
                                             </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="image">Car Image</Label>
+                                            <Input
+                                                id="image"
+                                                name="image"
+                                                type="file"
+                                                accept="image/*"
+                                                className="file:mr-4 file:rounded-md file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/80"
+                                            />
+                                            <InputError message={errors.image} />
+                                            <p className="text-xs text-muted-foreground">
+                                                Upload a photo of your car (JPEG, PNG, JPG, GIF, WebP, max 10MB)
+                                            </p>
                                         </div>
 
                                         <div className="space-y-2">

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\CarController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ModificationController;
+use App\Http\Controllers\Frontend\CarController;
+use App\Http\Controllers\Frontend\DashboardController;
+use App\Http\Controllers\Frontend\ModificationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/', [CarController::class, 'store'])->name('store');
             Route::put('/{car}', [CarController::class, 'update'])->name('update');
             Route::delete('/{car}', [CarController::class, 'destroy'])->name('destroy');
+            Route::get('/{car}/image', [CarController::class, 'image'])->name('image');
 
             Route::prefix('{car}/modifications')
                 ->name('modifications.')

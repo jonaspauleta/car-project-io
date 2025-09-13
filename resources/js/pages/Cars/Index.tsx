@@ -277,6 +277,20 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {carsData.data.map((car) => (
                             <Card key={car.id} className="transition-shadow hover:shadow-md">
+                                {/* Car Image */}
+                                {car.image_url && (
+                                    <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+                                        <img
+                                            src={car.image_url}
+                                            alt={car.nickname || `${car.make} ${car.model}`}
+                                            className="h-full w-full object-cover"
+                                            onError={(e) => {
+                                                const target = e.target as HTMLImageElement;
+                                                target.style.display = 'none';
+                                            }}
+                                        />
+                                    </div>
+                                )}
                                 <CardHeader>
                                     <div className="flex items-start justify-between">
                                         <div>

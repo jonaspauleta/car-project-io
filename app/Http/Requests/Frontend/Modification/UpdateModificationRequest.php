@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Modification;
+namespace App\Http\Requests\Frontend\Modification;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreModificationRequest extends FormRequest
+class UpdateModificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class StoreModificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'category' => ['required', 'string', 'max:255'],
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'category' => ['sometimes', 'required', 'string', 'max:255'],
             'notes' => ['nullable', 'string', 'max:1000'],
             'brand' => ['nullable', 'string', 'max:255'],
             'vendor' => ['nullable', 'string', 'max:255'],
@@ -50,15 +50,5 @@ class StoreModificationRequest extends FormRequest
             'cost.max' => 'The cost cannot exceed $999,999.99.',
             'notes.max' => 'The notes cannot exceed 1000 characters.',
         ];
-    }
-
-    /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'is_active' => $this->boolean('is_active', true),
-        ]);
     }
 }
