@@ -49,11 +49,11 @@ describe('ModificationController index method', function () {
 
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'name' => 'Performance Exhaust'
+            'name' => 'Performance Exhaust',
         ]);
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'name' => 'Sport Suspension'
+            'name' => 'Sport Suspension',
         ]);
 
         $response = $this->get("/cars/{$this->car->id}/modifications?search=Exhaust");
@@ -69,11 +69,11 @@ describe('ModificationController index method', function () {
 
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'name' => 'Performance Exhaust'
+            'name' => 'Performance Exhaust',
         ]);
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'name' => 'Sport Suspension'
+            'name' => 'Sport Suspension',
         ]);
 
         $response = $this->get("/cars/{$this->car->id}/modifications?filter[name]=Performance Exhaust");
@@ -89,11 +89,11 @@ describe('ModificationController index method', function () {
 
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'category' => 'Performance'
+            'category' => 'Performance',
         ]);
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'category' => 'Cosmetic'
+            'category' => 'Cosmetic',
         ]);
 
         $response = $this->get("/cars/{$this->car->id}/modifications?filter[category]=Performance");
@@ -109,11 +109,11 @@ describe('ModificationController index method', function () {
 
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'brand' => 'Borla'
+            'brand' => 'Borla',
         ]);
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'brand' => 'MagnaFlow'
+            'brand' => 'MagnaFlow',
         ]);
 
         $response = $this->get("/cars/{$this->car->id}/modifications?filter[brand]=Borla");
@@ -129,11 +129,11 @@ describe('ModificationController index method', function () {
 
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'vendor' => 'Amazon'
+            'vendor' => 'Amazon',
         ]);
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'vendor' => 'eBay'
+            'vendor' => 'eBay',
         ]);
 
         $response = $this->get("/cars/{$this->car->id}/modifications?filter[vendor]=Amazon");
@@ -149,11 +149,11 @@ describe('ModificationController index method', function () {
 
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'is_active' => true
+            'is_active' => true,
         ]);
         Modification::factory()->create([
             'car_id' => $this->car->id,
-            'is_active' => false
+            'is_active' => false,
         ]);
 
         $response = $this->get("/cars/{$this->car->id}/modifications?filter[is_active]=1");

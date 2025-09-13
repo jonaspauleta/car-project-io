@@ -38,12 +38,12 @@ describe('CarController index method', function () {
         Car::factory()->create([
             'user_id' => $this->user->id,
             'make' => 'Toyota',
-            'model' => 'Camry'
+            'model' => 'Camry',
         ]);
         Car::factory()->create([
             'user_id' => $this->user->id,
             'make' => 'Honda',
-            'model' => 'Civic'
+            'model' => 'Civic',
         ]);
 
         $response = $this->get('/cars?search=Toyota');
@@ -59,11 +59,11 @@ describe('CarController index method', function () {
 
         Car::factory()->create([
             'user_id' => $this->user->id,
-            'make' => 'Toyota'
+            'make' => 'Toyota',
         ]);
         Car::factory()->create([
             'user_id' => $this->user->id,
-            'make' => 'Honda'
+            'make' => 'Honda',
         ]);
 
         $response = $this->get('/cars?filter[make]=Toyota');
@@ -79,11 +79,11 @@ describe('CarController index method', function () {
 
         Car::factory()->create([
             'user_id' => $this->user->id,
-            'model' => 'Camry'
+            'model' => 'Camry',
         ]);
         Car::factory()->create([
             'user_id' => $this->user->id,
-            'model' => 'Civic'
+            'model' => 'Civic',
         ]);
 
         $response = $this->get('/cars?filter[model]=Camry');
@@ -99,11 +99,11 @@ describe('CarController index method', function () {
 
         Car::factory()->create([
             'user_id' => $this->user->id,
-            'year' => 2020
+            'year' => 2020,
         ]);
         Car::factory()->create([
             'user_id' => $this->user->id,
-            'year' => 2021
+            'year' => 2021,
         ]);
 
         $response = $this->get('/cars?filter[year]=2020');

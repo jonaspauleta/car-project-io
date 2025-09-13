@@ -24,7 +24,7 @@ class DashboardController extends Controller
         $totalModifications = Modification::whereHas('car', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->count();
-        
+
         $activeModifications = Modification::whereHas('car', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->where('is_active', true)->count();

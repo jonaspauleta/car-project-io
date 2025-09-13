@@ -6,13 +6,13 @@ namespace App\Http\Requests\Car;
 
 use App\Http\Requests\PaginatedRequest;
 use App\Http\Requests\Traits\Filterable;
-use App\Http\Requests\Traits\Sortable;
 use App\Http\Requests\Traits\Searchable;
+use App\Http\Requests\Traits\Sortable;
 use App\Repositories\CarRepository;
 
 class ListCarsRequest extends PaginatedRequest
 {
-    use Filterable, Sortable, Searchable;
+    use Filterable, Searchable, Sortable;
 
     /**
      * Determine if the user is authorized to make this request.

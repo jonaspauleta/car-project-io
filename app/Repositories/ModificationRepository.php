@@ -6,7 +6,7 @@ namespace App\Repositories;
 
 use App\Http\Requests\PaginatedRequest;
 use App\Models\Car;
-use App\Models\Modification;    
+use App\Models\Modification;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -39,9 +39,9 @@ class ModificationRepository extends BaseRepository
             ->allowedFilters(self::ALLOWED_FILTERS)
             ->where($request->has('search') && $request->search ? function ($q) use ($request) {
                 $q->where('name', 'like', "%{$request->search}%")
-                  ->orWhere('category', 'like', "%{$request->search}%")
-                  ->orWhere('brand', 'like', "%{$request->search}%")
-                  ->orWhere('vendor', 'like', "%{$request->search}%");
+                    ->orWhere('category', 'like', "%{$request->search}%")
+                    ->orWhere('brand', 'like', "%{$request->search}%")
+                    ->orWhere('vendor', 'like', "%{$request->search}%");
             } : null);
 
         return $this->paginate($request, $query);

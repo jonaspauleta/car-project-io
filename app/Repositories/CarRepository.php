@@ -34,11 +34,11 @@ class CarRepository extends BaseRepository
             ->allowedFilters(self::ALLOWED_FILTERS)
             ->where($request->has('search') && $request->search ? function ($q) use ($request) {
                 $q->where('make', 'like', "%{$request->search}%")
-                  ->orWhere('model', 'like', "%{$request->search}%")
-                  ->orWhere('nickname', 'like', "%{$request->search}%")
-                  ->orWhere('vin', 'like', "%{$request->search}%");
+                    ->orWhere('model', 'like', "%{$request->search}%")
+                    ->orWhere('nickname', 'like', "%{$request->search}%")
+                    ->orWhere('vin', 'like', "%{$request->search}%");
             } : null);
-        
+
         return $this->paginate($request, $query);
     }
 

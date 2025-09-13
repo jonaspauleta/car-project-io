@@ -53,11 +53,11 @@ describe('CarController show method', function () {
         $car = Car::factory()->create(['user_id' => $this->user->id]);
         $modification1 = Modification::factory()->create([
             'car_id' => $car->id,
-            'installation_date' => now()->subDays(2)
+            'installation_date' => now()->subDays(2),
         ]);
         $modification2 = Modification::factory()->create([
             'car_id' => $car->id,
-            'installation_date' => now()->subDay()
+            'installation_date' => now()->subDay(),
         ]);
 
         $response = $this->get("/cars/{$car->id}");

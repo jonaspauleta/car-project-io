@@ -11,7 +11,6 @@ use App\Models\Car;
 use App\Repositories\CarRepository;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
-use App\Http\Resources\CarResource;
 use Inertia\Response;
 
 class CarController extends Controller
