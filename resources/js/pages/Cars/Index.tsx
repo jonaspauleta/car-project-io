@@ -1,16 +1,15 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type Car, type PaginatedResponse } from '@/types';
-import cars from '@/routes/cars';
-import carcontroller from '@/actions/App/Http/Controllers/CarController';
 import Pagination from '@/components/ui/custom-pagination';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AppLayout from '@/layouts/app-layout';
+import cars from '@/routes/cars';
+import { type BreadcrumbItem, type Car, type PaginatedResponse } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Car as CarIcon, Plus, Search, Calendar, Wrench, Filter, X } from 'lucide-react';
+import { Calendar, Car as CarIcon, Filter, Plus, Search, X } from 'lucide-react';
 import { useState } from 'react';
 
 interface CarsIndexProps {
@@ -60,31 +59,33 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
         setMake('all');
         setModel('all');
         setYear('all');
-        router.get(cars.index.url(), {}, {
-            preserveState: true,
-            replace: true,
-        });
+        router.get(
+            cars.index.url(),
+            {},
+            {
+                preserveState: true,
+                replace: true,
+            },
+        );
     };
 
     const hasActiveFilters = search || (make && make !== 'all') || (model && model !== 'all') || (year && year !== 'all');
 
     // Generate unique makes, models, and years from the data
-    const uniqueMakes = [...new Set(carsData.data.map(car => car.make))].sort();
-    const uniqueModels = [...new Set(carsData.data.map(car => car.model))].sort();
-    const uniqueYears = [...new Set(carsData.data.map(car => car.year))].sort((a, b) => b - a);
+    const uniqueMakes = [...new Set(carsData.data.map((car) => car.make))].sort();
+    const uniqueModels = [...new Set(carsData.data.map((car) => car.model))].sort();
+    const uniqueYears = [...new Set(carsData.data.map((car) => car.year))].sort((a, b) => b - a);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Cars" />
-            
+
             <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto rounded-xl p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">My Cars</h1>
-                        <p className="text-muted-foreground">
-                            Manage your car collection and modifications
-                        </p>
+                        <p className="text-muted-foreground">Manage your car collection and modifications</p>
                     </div>
                     <Link href={cars.create.url()}>
                         <Button>
@@ -103,13 +104,11 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                     <Filter className="h-5 w-5" />
                                     Search & Filter
                                 </CardTitle>
-                                <CardDescription>
-                                    Find cars by make, model, year, or nickname
-                                </CardDescription>
+                                <CardDescription>Find cars by make, model, year, or nickname</CardDescription>
                             </div>
                             {hasActiveFilters && (
                                 <Button type="button" variant="ghost" size="sm" onClick={clearFilters}>
-                                    <X className="h-4 w-4 mr-1" />
+                                    <X className="mr-1 h-4 w-4" />
                                     Clear All
                                 </Button>
                             )}
@@ -119,7 +118,7 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                         <form onSubmit={handleSearch} className="space-y-4">
                             {/* Search Input */}
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                 <Input
                                     placeholder="Search cars by nickname, make, model, or VIN..."
                                     value={search}
@@ -129,7 +128,7 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                             </div>
 
                             {/* Filter Controls */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                 {/* Make Filter */}
                                 <div className="space-y-2">
                                     <Label htmlFor="make-filter">Make</Label>
@@ -188,12 +187,12 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                             {/* Action Buttons */}
                             <div className="flex gap-2">
                                 <Button type="submit" variant="outline">
-                                    <Search className="h-4 w-4 mr-2" />
+                                    <Search className="mr-2 h-4 w-4" />
                                     Apply Filters
                                 </Button>
                                 {hasActiveFilters && (
                                     <Button type="button" variant="ghost" onClick={clearFilters}>
-                                        <X className="h-4 w-4 mr-2" />
+                                        <X className="mr-2 h-4 w-4" />
                                         Clear Filters
                                     </Button>
                                 )}
@@ -201,7 +200,7 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
 
                             {/* Active Filters Display */}
                             {hasActiveFilters && (
-                                <div className="flex flex-wrap gap-2 pt-2 border-t">
+                                <div className="flex flex-wrap gap-2 border-t pt-2">
                                     <span className="text-sm text-muted-foreground">Active filters:</span>
                                     {search && (
                                         <Badge variant="secondary" className="gap-1">
@@ -209,7 +208,7 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                             <button
                                                 type="button"
                                                 onClick={() => setSearch('')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -221,7 +220,7 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                             <button
                                                 type="button"
                                                 onClick={() => setMake('all')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -233,7 +232,7 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                             <button
                                                 type="button"
                                                 onClick={() => setModel('all')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -245,7 +244,7 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                             <button
                                                 type="button"
                                                 onClick={() => setYear('all')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -261,12 +260,10 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                 {carsData.data.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
-                            <CarIcon className="h-12 w-12 text-muted-foreground mb-4" />
-                            <h3 className="text-lg font-semibold mb-2">No cars found</h3>
-                            <p className="text-muted-foreground text-center mb-4">
-                                {hasActiveFilters
-                                    ? 'Try adjusting your search criteria'
-                                    : 'Get started by adding your first car'}
+                            <CarIcon className="mb-4 h-12 w-12 text-muted-foreground" />
+                            <h3 className="mb-2 text-lg font-semibold">No cars found</h3>
+                            <p className="mb-4 text-center text-muted-foreground">
+                                {hasActiveFilters ? 'Try adjusting your search criteria' : 'Get started by adding your first car'}
                             </p>
                             <Link href={cars.create.url()}>
                                 <Button>
@@ -279,20 +276,16 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                 ) : (
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {carsData.data.map((car) => (
-                            <Card key={car.id} className="hover:shadow-md transition-shadow">
+                            <Card key={car.id} className="transition-shadow hover:shadow-md">
                                 <CardHeader>
                                     <div className="flex items-start justify-between">
                                         <div>
-                                            <CardTitle className="text-xl">
-                                                {car.nickname || `${car.make} ${car.model}`}
-                                            </CardTitle>
+                                            <CardTitle className="text-xl">{car.nickname || `${car.make} ${car.model}`}</CardTitle>
                                             <CardDescription>
                                                 {car.make} {car.model} ({car.year})
                                             </CardDescription>
                                         </div>
-                                        <Badge variant="secondary">
-                                            {car.modifications?.length || 0} mods
-                                        </Badge>
+                                        <Badge variant="secondary">{car.modifications?.length || 0} mods</Badge>
                                     </div>
                                 </CardHeader>
                                 <CardContent>
@@ -303,16 +296,12 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                                 <span className="ml-2 font-mono">{car.vin}</span>
                                             </div>
                                         )}
-                                        
-                                        {car.notes && (
-                                            <p className="text-sm text-muted-foreground line-clamp-2">
-                                                {car.notes}
-                                            </p>
-                                        )}
+
+                                        {car.notes && <p className="line-clamp-2 text-sm text-muted-foreground">{car.notes}</p>}
 
                                         <div className="flex items-center justify-between pt-2">
                                             <div className="flex items-center text-sm text-muted-foreground">
-                                                <Calendar className="h-4 w-4 mr-1" />
+                                                <Calendar className="mr-1 h-4 w-4" />
                                                 Added {new Date(car.created_at).toLocaleDateString()}
                                             </div>
                                             <div className="flex gap-2">

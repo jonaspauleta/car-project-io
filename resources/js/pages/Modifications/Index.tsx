@@ -1,15 +1,15 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type Car, type Modification, type PaginatedResponse } from '@/types';
-import cars from '@/routes/cars';
 import Pagination from '@/components/ui/custom-pagination';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AppLayout from '@/layouts/app-layout';
+import cars from '@/routes/cars';
+import { type BreadcrumbItem, type Car, type Modification, type PaginatedResponse } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { ArrowLeft, Plus, Search, Calendar, DollarSign, Wrench, Filter, X } from 'lucide-react';
+import { ArrowLeft, Calendar, DollarSign, Filter, Plus, Search, Wrench, X } from 'lucide-react';
 import { useState } from 'react';
 
 interface ModificationsIndexProps {
@@ -68,19 +68,29 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
         setBrand('all');
         setVendor('all');
         setIsActive('all');
-        router.get(cars.modifications.index.url({ car }), {}, {
-            preserveState: true,
-            replace: true,
-        });
+        router.get(
+            cars.modifications.index.url({ car }),
+            {},
+            {
+                preserveState: true,
+                replace: true,
+            },
+        );
     };
 
-    const hasActiveFilters = search || (name && name !== 'all') || (category && category !== 'all') || (brand && brand !== 'all') || (vendor && vendor !== 'all') || (isActive && isActive !== 'all');
+    const hasActiveFilters =
+        search ||
+        (name && name !== 'all') ||
+        (category && category !== 'all') ||
+        (brand && brand !== 'all') ||
+        (vendor && vendor !== 'all') ||
+        (isActive && isActive !== 'all');
 
     // Generate unique values from the data
-    const uniqueNames = [...new Set(modifications.data.map(mod => mod.name))].sort();
-    const uniqueCategories = [...new Set(modifications.data.map(mod => mod.category))].sort();
-    const uniqueBrands = [...new Set(modifications.data.map(mod => mod.brand).filter(Boolean))].sort();
-    const uniqueVendors = [...new Set(modifications.data.map(mod => mod.vendor).filter(Boolean))].sort();
+    const uniqueNames = [...new Set(modifications.data.map((mod) => mod.name))].sort();
+    const uniqueCategories = [...new Set(modifications.data.map((mod) => mod.category))].sort();
+    const uniqueBrands = [...new Set(modifications.data.map((mod) => mod.brand).filter(Boolean))].sort();
+    const uniqueVendors = [...new Set(modifications.data.map((mod) => mod.vendor).filter(Boolean))].sort();
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
@@ -94,16 +104,22 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
     };
 
     return (
-        <AppLayout breadcrumbs={[...breadcrumbs, { title: car.nickname || `${car.make} ${car.model}`, href: `/cars/${car.id}` }, { title: 'Modifications', href: `/cars/${car.id}/modifications` }]}>
+        <AppLayout
+            breadcrumbs={[
+                ...breadcrumbs,
+                { title: car.nickname || `${car.make} ${car.model}`, href: `/cars/${car.id}` },
+                { title: 'Modifications', href: `/cars/${car.id}/modifications` },
+            ]}
+        >
             <Head title={`Modifications - ${car.nickname || `${car.make} ${car.model}`}`} />
-            
+
             <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto rounded-xl p-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <Link href={cars.show.url(car)}>
                             <Button variant="ghost" size="sm">
-                                <ArrowLeft className="h-4 w-4 mr-2" />
+                                <ArrowLeft className="mr-2 h-4 w-4" />
                                 Back to Car
                             </Button>
                         </Link>
@@ -131,13 +147,11 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                                     <Filter className="h-5 w-5" />
                                     Search & Filter
                                 </CardTitle>
-                                <CardDescription>
-                                    Find modifications by name, category, brand, vendor, or status
-                                </CardDescription>
+                                <CardDescription>Find modifications by name, category, brand, vendor, or status</CardDescription>
                             </div>
                             {hasActiveFilters && (
                                 <Button type="button" variant="ghost" size="sm" onClick={clearFilters}>
-                                    <X className="h-4 w-4 mr-1" />
+                                    <X className="mr-1 h-4 w-4" />
                                     Clear All
                                 </Button>
                             )}
@@ -147,7 +161,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                         <form onSubmit={handleSearch} className="space-y-4">
                             {/* Search Input */}
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                 <Input
                                     placeholder="Search modifications by name, notes, or description..."
                                     value={search}
@@ -157,7 +171,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                             </div>
 
                             {/* Filter Controls */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 {/* Name Filter */}
                                 <div className="space-y-2">
                                     <Label htmlFor="name-filter">Name</Label>
@@ -249,12 +263,12 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                             {/* Action Buttons */}
                             <div className="flex gap-2">
                                 <Button type="submit" variant="outline">
-                                    <Search className="h-4 w-4 mr-2" />
+                                    <Search className="mr-2 h-4 w-4" />
                                     Apply Filters
                                 </Button>
                                 {hasActiveFilters && (
                                     <Button type="button" variant="ghost" onClick={clearFilters}>
-                                        <X className="h-4 w-4 mr-2" />
+                                        <X className="mr-2 h-4 w-4" />
                                         Clear Filters
                                     </Button>
                                 )}
@@ -262,7 +276,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
 
                             {/* Active Filters Display */}
                             {hasActiveFilters && (
-                                <div className="flex flex-wrap gap-2 pt-2 border-t">
+                                <div className="flex flex-wrap gap-2 border-t pt-2">
                                     <span className="text-sm text-muted-foreground">Active filters:</span>
                                     {search && (
                                         <Badge variant="secondary" className="gap-1">
@@ -270,7 +284,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                                             <button
                                                 type="button"
                                                 onClick={() => setSearch('')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -282,7 +296,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                                             <button
                                                 type="button"
                                                 onClick={() => setName('all')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -294,7 +308,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                                             <button
                                                 type="button"
                                                 onClick={() => setCategory('all')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -306,7 +320,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                                             <button
                                                 type="button"
                                                 onClick={() => setBrand('all')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -318,7 +332,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                                             <button
                                                 type="button"
                                                 onClick={() => setVendor('all')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -330,7 +344,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                                             <button
                                                 type="button"
                                                 onClick={() => setIsActive('all')}
-                                                className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
+                                                className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -346,12 +360,10 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                 {modifications.data.length === 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
-                            <Wrench className="h-12 w-12 text-muted-foreground mb-4" />
-                            <h3 className="text-lg font-semibold mb-2">No modifications found</h3>
-                            <p className="text-muted-foreground text-center mb-4">
-                                {hasActiveFilters
-                                    ? 'Try adjusting your search criteria'
-                                    : 'Get started by adding your first modification'}
+                            <Wrench className="mb-4 h-12 w-12 text-muted-foreground" />
+                            <h3 className="mb-2 text-lg font-semibold">No modifications found</h3>
+                            <p className="mb-4 text-center text-muted-foreground">
+                                {hasActiveFilters ? 'Try adjusting your search criteria' : 'Get started by adding your first modification'}
                             </p>
                             <Link href={cars.modifications.create.url({ car })}>
                                 <Button>
@@ -364,26 +376,24 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                 ) : (
                     <div className="space-y-4">
                         {modifications.data.map((modification) => (
-                            <Card key={modification.id} className="hover:shadow-md transition-shadow">
+                            <Card key={modification.id} className="transition-shadow hover:shadow-md">
                                 <CardContent className="p-6">
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
-                                            <div className="flex items-center gap-2 mb-2">
+                                            <div className="mb-2 flex items-center gap-2">
                                                 <h3 className="text-lg font-semibold">{modification.name}</h3>
-                                                <Badge variant={modification.is_active ? "default" : "secondary"}>
-                                                    {modification.is_active ? "Active" : "Inactive"}
+                                                <Badge variant={modification.is_active ? 'default' : 'secondary'}>
+                                                    {modification.is_active ? 'Active' : 'Inactive'}
                                                 </Badge>
                                             </div>
-                                            
-                                            <p className="text-muted-foreground mb-3">
+
+                                            <p className="mb-3 text-muted-foreground">
                                                 {modification.category}
                                                 {modification.brand && ` • ${modification.brand}`}
                                                 {modification.vendor && ` • ${modification.vendor}`}
                                             </p>
 
-                                            {modification.notes && (
-                                                <p className="text-sm mb-3 line-clamp-2">{modification.notes}</p>
-                                            )}
+                                            {modification.notes && <p className="mb-3 line-clamp-2 text-sm">{modification.notes}</p>}
 
                                             <div className="flex items-center gap-6 text-sm text-muted-foreground">
                                                 {modification.installation_date && (
@@ -404,7 +414,7 @@ export default function ModificationsIndex({ car, modifications, filters }: Modi
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="flex gap-2">
                                             <Link href={cars.modifications.show.url({ car: car.id, modification: modification.id })}>
                                                 <Button variant="outline" size="sm">

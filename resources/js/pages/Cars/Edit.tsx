@@ -1,12 +1,12 @@
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import InputError from '@/components/input-error';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type Car } from '@/types';
 import cars from '@/routes/cars';
-import { Head, Form, Link } from '@inertiajs/react';
+import { type BreadcrumbItem, type Car } from '@/types';
+import { Form, Head, Link } from '@inertiajs/react';
 import { ArrowLeft, LoaderCircle } from 'lucide-react';
 
 interface CarEditProps {
@@ -36,21 +36,19 @@ export default function CarEdit({ car }: CarEditProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Edit ${car.nickname || `${car.make} ${car.model}`}`} />
-            
+
             <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto rounded-xl p-6">
                 {/* Header */}
                 <div className="flex items-center gap-4">
                     <Link href={cars.show.url(car)}>
                         <Button variant="ghost" size="sm">
-                            <ArrowLeft className="h-4 w-4 mr-2" />
+                            <ArrowLeft className="mr-2 h-4 w-4" />
                             Back to Car
                         </Button>
                     </Link>
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">Edit Car</h1>
-                        <p className="text-muted-foreground">
-                            Update the details for {car.nickname || `${car.make} ${car.model}`}
-                        </p>
+                        <p className="text-muted-foreground">Update the details for {car.nickname || `${car.make} ${car.model}`}</p>
                     </div>
                 </div>
 
@@ -59,40 +57,22 @@ export default function CarEdit({ car }: CarEditProps) {
                     <Card>
                         <CardHeader>
                             <CardTitle>Car Information</CardTitle>
-                            <CardDescription>
-                                Update the details for your car
-                            </CardDescription>
+                            <CardDescription>Update the details for your car</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <Form
-                                action={cars.update.url(car)}
-                                method="put"
-                                className="space-y-6"
-                            >
+                            <Form action={cars.update.url(car)} method="put" className="space-y-6">
                                 {({ processing, errors }) => (
                                     <>
                                         <div className="grid gap-6 md:grid-cols-2">
                                             <div className="space-y-2">
                                                 <Label htmlFor="make">Make *</Label>
-                                                <Input
-                                                    id="make"
-                                                    name="make"
-                                                    defaultValue={car.make}
-                                                    placeholder="e.g., Toyota"
-                                                    required
-                                                />
+                                                <Input id="make" name="make" defaultValue={car.make} placeholder="e.g., Toyota" required />
                                                 <InputError message={errors.make} />
                                             </div>
 
                                             <div className="space-y-2">
                                                 <Label htmlFor="model">Model *</Label>
-                                                <Input
-                                                    id="model"
-                                                    name="model"
-                                                    defaultValue={car.model}
-                                                    placeholder="e.g., Camry"
-                                                    required
-                                                />
+                                                <Input id="model" name="model" defaultValue={car.model} placeholder="e.g., Camry" required />
                                                 <InputError message={errors.model} />
                                             </div>
                                         </div>
@@ -151,7 +131,7 @@ export default function CarEdit({ car }: CarEditProps) {
 
                                         <div className="flex gap-4 pt-4">
                                             <Button type="submit" disabled={processing}>
-                                                {processing && <LoaderCircle className="h-4 w-4 animate-spin mr-2" />}
+                                                {processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
                                                 Update Car
                                             </Button>
                                             <Link href={cars.show.url(car)}>

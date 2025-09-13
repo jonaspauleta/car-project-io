@@ -111,7 +111,7 @@ export default function Pagination<T>({ pagination, className = '' }: Pagination
                         // Find the URL for this page number
                         const pageUrl = Object.keys(links).find(key => {
                             if (key === 'prev' || key === 'next') return false;
-                            const url = (links as any)[key];
+                            const url = (links as PaginatedResponse<T>['links'])[key as keyof PaginatedResponse<T>['links']];
                             if (!url) return false;
                             // Extract page number from URL
                             const match = url.match(/[?&]page=(\d+)/);
@@ -126,8 +126,8 @@ export default function Pagination<T>({ pagination, className = '' }: Pagination
                                     size="icon"
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        if (pageUrl && (links as any)[pageUrl]) {
-                                            handlePageChange((links as any)[pageUrl]!);
+                                        if (pageUrl && (links as PaginatedResponse<T>['links'])[pageUrl as keyof PaginatedResponse<T>['links']]) {
+                                            handlePageChange((links as PaginatedResponse<T>['links'])[pageUrl as keyof PaginatedResponse<T>['links']]!);
                                         }
                                     }}
                                 >
