@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Http\Requests\API\Modification\ListModificationsRequest;
-use App\Http\Requests\API\Modification\ShowModificationRequest;
+use App\Http\Requests\PaginatedRequest;
 use App\Models\Car;
-use App\Models\Modification;
+use App\Models\Modification;    
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -26,10 +25,11 @@ class ModificationRepository extends BaseRepository
      * @return Collection<int, Modification>
      */
     public function list(
-        ListModificationsRequest $request,
+        PaginatedRequest $request,
         Car $car,
     ): Paginator {
         $query = QueryBuilder::for(Modification::class)
+            ->with(self::ALLOWED_INCLUDES)
             ->where('car_id', $car->id)
             ->whereHas('car', function ($query) {
                 $query->where('user_id', auth()->id());
@@ -37,7 +37,12 @@ class ModificationRepository extends BaseRepository
             ->defaultSort('id')
             ->allowedSorts(self::ALLOWED_SORTS)
             ->allowedFilters(self::ALLOWED_FILTERS)
-            ->allowedIncludes(self::ALLOWED_INCLUDES);
+            ->where($request->has('search') && $request->search ? function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->search}%")
+                  ->orWhere('category', 'like', "%{$request->search}%")
+                  ->orWhere('brand', 'like', "%{$request->search}%")
+                  ->orWhere('vendor', 'like', "%{$request->search}%");
+            } : null);
 
         return $this->paginate($request, $query);
     }
@@ -46,14 +51,13 @@ class ModificationRepository extends BaseRepository
      * Find a modification by ID.
      */
     public function show(
-        ShowModificationRequest $request,
         Car $car,
         Modification $modification,
     ): ?Modification {
         // Since authorization is handled in the controller, we can use the model directly
         // and just apply the query builder for includes and other features
         return QueryBuilder::for(Modification::class)
-            ->allowedIncludes(self::ALLOWED_INCLUDES)
+            ->with(self::ALLOWED_INCLUDES)
             ->find($modification->id);
     }
 

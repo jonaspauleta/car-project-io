@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\API\Modification;
 
-use App\Http\Requests\API\PaginatedAPIRequest;
+use App\Http\Requests\PaginatedRequest;
 use App\Http\Requests\Traits\Filterable;
-use App\Http\Requests\Traits\Includable;
 use App\Http\Requests\Traits\Sortable;
 use App\Repositories\ModificationRepository;
 
-class ListModificationsRequest extends PaginatedAPIRequest
+class ListModificationsRequest extends PaginatedRequest
 {
-    use Filterable, Includable, Sortable;
+    use Filterable, Sortable;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -32,7 +31,6 @@ class ListModificationsRequest extends PaginatedAPIRequest
         return [
             ...$this->allowedSorts(ModificationRepository::ALLOWED_SORTS),
             ...$this->allowedFilters(ModificationRepository::ALLOWED_FILTERS),
-            ...$this->allowedIncludes(ModificationRepository::ALLOWED_INCLUDES),
         ];
     }
 }

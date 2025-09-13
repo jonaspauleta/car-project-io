@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\API\Car;
 
-use App\Http\Requests\Traits\Includable;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Repositories\CarRepository;
 
 class ShowCarRequest extends FormRequest
 {
-    use Includable;
-
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,7 +24,7 @@ class ShowCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            ...$this->allowedIncludes(CarRepository::ALLOWED_INCLUDES),
+            //
         ];
     }
 }

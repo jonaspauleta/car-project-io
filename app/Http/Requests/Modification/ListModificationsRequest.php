@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\API\Car;
+namespace App\Http\Requests\Modification;
 
 use App\Http\Requests\PaginatedRequest;
 use App\Http\Requests\Traits\Filterable;
 use App\Http\Requests\Traits\Sortable;
-use App\Repositories\CarRepository;
+use App\Http\Requests\Traits\Searchable;
+use App\Repositories\ModificationRepository;
 
-class ListCarsRequest extends PaginatedRequest
+class ListModificationsRequest extends PaginatedRequest
 {
-    use Filterable, Sortable;
+    use Filterable, Sortable, Searchable;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +30,9 @@ class ListCarsRequest extends PaginatedRequest
     public function rules(): array
     {
         return [
-            ...$this->allowedSorts(CarRepository::ALLOWED_SORTS),
-            ...$this->allowedFilters(CarRepository::ALLOWED_FILTERS),
+            ...$this->allowsSearch(),
+            ...$this->allowedSorts(ModificationRepository::ALLOWED_SORTS),
+            ...$this->allowedFilters(ModificationRepository::ALLOWED_FILTERS),
         ];
     }
 }

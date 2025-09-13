@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests\API\Modification;
 
 use App\Http\Requests\Traits\Includable;
-use App\Repositories\ModificationRepository;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowModificationRequest extends FormRequest
@@ -28,7 +27,7 @@ class ShowModificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            ...$this->allowedIncludes(ModificationRepository::ALLOWED_INCLUDES),
+            //
         ];
     }
 }

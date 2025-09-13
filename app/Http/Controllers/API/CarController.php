@@ -302,7 +302,6 @@ class CarController extends Controller
 
         return CarResource::make(
             $this->carRepository->show(
-                $request,
                 $car
             )
         );

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Http\Requests\API\Car\ListCarsRequest;
-use App\Http\Requests\API\Car\ShowCarRequest;
+use App\Http\Requests\PaginatedRequest;
 use App\Models\Car;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,15 +24,21 @@ class CarRepository extends BaseRepository
      * @return Collection<int, Car>
      */
     public function list(
-        ListCarsRequest $request,
+        PaginatedRequest $request,
     ): Paginator {
         $query = QueryBuilder::for(Car::class)
+            ->with(self::ALLOWED_INCLUDES)
             ->where('user_id', auth()->id())
             ->defaultSort('id')
             ->allowedSorts(self::ALLOWED_SORTS)
             ->allowedFilters(self::ALLOWED_FILTERS)
-            ->allowedIncludes(self::ALLOWED_INCLUDES);
-
+            ->where($request->has('search') && $request->search ? function ($q) use ($request) {
+                $q->where('make', 'like', "%{$request->search}%")
+                  ->orWhere('model', 'like', "%{$request->search}%")
+                  ->orWhere('nickname', 'like', "%{$request->search}%")
+                  ->orWhere('vin', 'like', "%{$request->search}%");
+            } : null);
+        
         return $this->paginate($request, $query);
     }
 
@@ -41,13 +46,12 @@ class CarRepository extends BaseRepository
      * Find a car by ID.
      */
     public function show(
-        ShowCarRequest $request,
         Car $car,
     ): ?Car {
         // Since authorization is handled in the controller, we can use the model directly
         // and just apply the query builder for includes and other features
         return QueryBuilder::for(Car::class)
-            ->allowedIncludes(self::ALLOWED_INCLUDES)
+            ->with(self::ALLOWED_INCLUDES)
             ->find($car->id);
     }
 

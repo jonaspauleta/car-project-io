@@ -334,7 +334,6 @@ class ModificationController extends Controller
 
         return ModificationResource::make(
             $this->modificationRepository->show(
-                $request,
                 $car,
                 $modification
             )

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('modifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('car_id')->constrained('cars');
+            $table->foreignId('car_id')->constrained('cars')->onDelete('cascade');
             $table->string('name');
             $table->string('category'); // TODO create categories table
             $table->text('notes')->nullable();
