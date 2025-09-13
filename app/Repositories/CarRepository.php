@@ -44,8 +44,9 @@ class CarRepository extends BaseRepository
         ShowCarRequest $request,
         Car $car,
     ): ?Car {
+        // Since authorization is handled in the controller, we can use the model directly
+        // and just apply the query builder for includes and other features
         return QueryBuilder::for(Car::class)
-            ->where('user_id', auth()->id())
             ->allowedIncludes(self::ALLOWED_INCLUDES)
             ->find($car->id);
     }

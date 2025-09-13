@@ -151,6 +151,8 @@ class CarController extends Controller
     public function index(
         ListCarsRequest $request
     ) {
+        $this->authorize('viewAny', Car::class);
+
         return CarResource::collection(
             $this->carRepository->list($request)
         );
@@ -215,6 +217,8 @@ class CarController extends Controller
      */
     public function store(CreateCarRequest $request)
     {
+        $this->authorize('create', Car::class);
+
         return CarResource::make(
             $this->carRepository->create(
                 $request->validated() + ['user_id' => auth()->user()->id]
@@ -294,6 +298,8 @@ class CarController extends Controller
      */
     public function show(ShowCarRequest $request, Car $car)
     {
+        $this->authorize('view', $car);
+
         return CarResource::make(
             $this->carRepository->show(
                 $request,
@@ -380,6 +386,8 @@ class CarController extends Controller
      */
     public function update(UpdateCarRequest $request, Car $car)
     {
+        $this->authorize('update', $car);
+
         return CarResource::make(
             $this->carRepository->update(
                 $car,
@@ -434,6 +442,8 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
+        $this->authorize('delete', $car);
+
         $this->carRepository->delete(
             $car
         );
@@ -523,10 +533,7 @@ class CarController extends Controller
      */
     public function uploadImage(UploadCarImageRequest $request, Car $car): JsonResponse
     {
-        // Check if user owns the car
-        if ($car->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('update', $car);
 
         // Delete old image if exists
         if ($car->image_url) {
@@ -609,10 +616,7 @@ class CarController extends Controller
      */
     public function image(Car $car): Response|JsonResponse
     {
-        // Check if user owns the car
-        if ($car->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('view', $car);
 
         // Check if car has an image
         $imagePath = $car->getRawOriginal('image_url');

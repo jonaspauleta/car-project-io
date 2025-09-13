@@ -158,6 +158,8 @@ class ModificationController extends Controller
         ListModificationsRequest $request,
         Car $car,
     ) {
+        $this->authorize('viewAny', [Modification::class, $car]);
+
         return ModificationResource::collection(
             $this->modificationRepository->list($request, $car)
         );
@@ -235,6 +237,8 @@ class ModificationController extends Controller
         CreateModificationRequest $request,
         Car $car,
     ) {
+        $this->authorize('create', [Modification::class, $car]);
+
         return ModificationResource::make(
             $this->modificationRepository->create(
                 $request->validated() + ['car_id' => $car->id]
@@ -326,6 +330,8 @@ class ModificationController extends Controller
         Car $car,
         Modification $modification,
     ) {
+        $this->authorize('view', $modification);
+
         return ModificationResource::make(
             $this->modificationRepository->show(
                 $request,
@@ -426,6 +432,8 @@ class ModificationController extends Controller
         Car $car,
         Modification $modification,
     ) {
+        $this->authorize('update', $modification);
+
         return ModificationResource::make(
             $this->modificationRepository->update(
                 $modification,
@@ -491,6 +499,8 @@ class ModificationController extends Controller
         Car $car,
         Modification $modification
     ) {
+        $this->authorize('delete', $modification);
+
         $this->modificationRepository->delete(
             $modification
         );

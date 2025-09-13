@@ -50,11 +50,9 @@ class ModificationRepository extends BaseRepository
         Car $car,
         Modification $modification,
     ): ?Modification {
+        // Since authorization is handled in the controller, we can use the model directly
+        // and just apply the query builder for includes and other features
         return QueryBuilder::for(Modification::class)
-            ->where('car_id', $car->id)
-            ->whereHas('car', function ($query) {
-                $query->where('user_id', auth()->id());
-            })
             ->allowedIncludes(self::ALLOWED_INCLUDES)
             ->find($modification->id);
     }
