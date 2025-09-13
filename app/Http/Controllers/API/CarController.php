@@ -9,9 +9,13 @@ use App\Http\Requests\API\Car\CreateCarRequest;
 use App\Http\Requests\API\Car\ListCarsRequest;
 use App\Http\Requests\API\Car\ShowCarRequest;
 use App\Http\Requests\API\Car\UpdateCarRequest;
+use App\Http\Requests\API\Car\UploadCarImageRequest;
 use App\Http\Resources\CarResource;
 use App\Models\Car;
 use App\Repositories\CarRepository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -435,5 +439,194 @@ class CarController extends Controller
         );
 
         return response()->noContent();
+    }
+
+    /**
+     * Upload an image for the specified car.
+     *
+     * @OA\Post(
+     *     path="/api/cars/{car}/upload-image",
+     *     summary="Upload car image",
+     *     description="Upload an image for a specific car",
+     *     tags={"Cars"},
+     *     security={{"bearerAuth": {}}},
+     *
+     *     @OA\Parameter(
+     *         name="car",
+     *         in="path",
+     *         description="Car ID",
+     *         required=true,
+     *
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *
+     *             @OA\Schema(
+     *                 required={"image"},
+     *
+     *                 @OA\Property(
+     *                     property="image",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Image file (jpeg, png, jpg, gif, webp, max 10MB)"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Image uploaded successfully",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="data", ref="#/components/schemas/CarResource")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Car not found",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="No query results for model [App\\Models\\Car] {id}")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
+    public function uploadImage(UploadCarImageRequest $request, Car $car): JsonResponse
+    {
+        // Check if user owns the car
+        if ($car->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Delete old image if exists
+        if ($car->image_url) {
+            $oldImagePath = $car->getRawOriginal('image_url');
+            if ($oldImagePath) {
+                Storage::disk('private')->delete($oldImagePath);
+            }
+        }
+
+        // Store the new image in private storage
+        $imagePath = $request->file('image')->store('cars', 'private');
+        $imageUrl = route('api.cars.image', ['car' => $car->id]);
+
+        // Update car with new image URL (store the actual path for serving)
+        $car->update(['image_url' => $imagePath]);
+
+        return response()->json([
+            'data' => CarResource::make($car->fresh()),
+        ]);
+    }
+
+    /**
+     * Serve the car's image with proper authorization.
+     *
+     * @OA\Get(
+     *     path="/api/cars/{car}/image",
+     *     summary="Get car image",
+     *     description="Retrieve the image for a specific car. Only the car owner can access this image.",
+     *     tags={"Cars"},
+     *     security={{"bearerAuth": {}}},
+     *
+     *     @OA\Parameter(
+     *         name="car",
+     *         in="path",
+     *         description="Car ID",
+     *         required=true,
+     *
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Image file",
+     *
+     *         @OA\MediaType(
+     *             mediaType="image/*"
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden - Not the car owner",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Unauthorized")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=404,
+     *         description="Car not found or no image",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Image not found")
+     *         )
+     *     )
+     * )
+     */
+    public function image(Car $car): Response|JsonResponse
+    {
+        // Check if user owns the car
+        if ($car->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Check if car has an image
+        $imagePath = $car->getRawOriginal('image_url');
+        if (! $imagePath || ! Storage::disk('private')->exists($imagePath)) {
+            return response()->json(['message' => 'Image not found'], 404);
+        }
+
+        // Get the file and determine its MIME type
+        $file = Storage::disk('private')->get($imagePath);
+        $mimeType = Storage::disk('private')->mimeType($imagePath);
+
+        return response($file, 200, [
+            'Content-Type' => $mimeType,
+            'Cache-Control' => 'private, max-age=3600', // Cache for 1 hour
+        ]);
     }
 }

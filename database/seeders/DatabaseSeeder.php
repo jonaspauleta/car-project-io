@@ -16,8 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -34,6 +32,5 @@ class DatabaseSeeder extends Seeder
         $car = Car::factory()->count(5)->create([
             'user_id' => $user->id,
         ]);
-
     }
 }

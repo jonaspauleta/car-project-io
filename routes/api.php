@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')
                 Route::post('/', [CarController::class, 'store'])->name('store');
                 Route::put('/{car}', [CarController::class, 'update'])->name('update');
                 Route::delete('/{car}', [CarController::class, 'destroy'])->name('destroy');
+                Route::post('/{car}/upload-image', [CarController::class, 'uploadImage'])->name('upload-image');
+                Route::get('/{car}/image', [CarController::class, 'image'])->name('image');
 
                 Route::prefix('{car}/modifications')
                     ->name('modifications.')

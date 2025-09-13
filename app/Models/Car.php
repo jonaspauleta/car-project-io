@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @OA\Schema(
@@ -109,6 +110,43 @@ class Car extends Model
     public function modifications(): HasMany
     {
         return $this->hasMany(Modification::class);
+    }
+
+    /**
+     * Get the full URL for the car's image.
+     */
+    public function getImageUrlAttribute(?string $value): ?string
+    {
+        if (! $value) {
+            return null;
+        }
+
+        // If it's already a full URL, return as is
+        if (str_starts_with($value, 'http')) {
+            return $value;
+        }
+
+        // If it's a storage path, return the secure route URL
+        return route('api.cars.image', ['car' => $this->id]);
+    }
+
+    /**
+     * Delete the car's image from storage.
+     */
+    public function deleteImage(): bool
+    {
+        if (! $this->image_url) {
+            return true;
+        }
+
+        $imagePath = $this->getRawOriginal('image_url');
+        $deleted = Storage::disk('private')->delete($imagePath);
+
+        if ($deleted) {
+            $this->update(['image_url' => null]);
+        }
+
+        return $deleted;
     }
 
     /**
