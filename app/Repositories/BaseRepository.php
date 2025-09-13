@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Http\Requests\PaginatedRequest;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -16,11 +15,12 @@ use Spatie\QueryBuilder\QueryBuilder;
 class BaseRepository
 {
     /**
-     * @param  QueryBuilder|Builder<Model>  $queryBuilder
+     * @param  QueryBuilder<TModel>  $queryBuilder
+     * @return Paginator<int, TModel>
      */
     public function paginate(
         PaginatedRequest $request,
-        QueryBuilder|Builder $queryBuilder,
+        QueryBuilder $queryBuilder,
     ): Paginator {
         return $queryBuilder
             ->paginate(perPage: $request->getLimit())

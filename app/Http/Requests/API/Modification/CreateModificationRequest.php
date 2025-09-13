@@ -35,18 +35,19 @@ class CreateModificationRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
-        if (method_exists($this, 'defaults')) {
-            foreach ($this->defaults() as $key => $defaultValue) {
-                if (! $this->has($key)) {
-                    $this->merge([$key => $defaultValue]);
-                }
+        foreach ($this->defaults() as $key => $defaultValue) {
+            if (! $this->has($key)) {
+                $this->merge([$key => $defaultValue]);
             }
         }
     }
 
-    protected function defaults()
+    /**
+     * @return array<string, mixed>
+     */
+    protected function defaults(): array
     {
         return [
             'is_active' => true,

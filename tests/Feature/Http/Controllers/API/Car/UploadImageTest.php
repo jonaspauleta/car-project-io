@@ -37,17 +37,15 @@ describe('CarController uploadImage method', function () {
 
         $response->assertSuccessful()
             ->assertJsonStructure([
-                'data' => [
-                    'id',
-                    'make',
-                    'model',
-                    'year',
-                    'image_url',
-                ],
+                'id',
+                'make',
+                'model',
+                'year',
+                'image_url',
             ]);
 
-        expect($response->json('data.image_url'))->not->toBeNull();
-        expect($response->json('data.image_url'))->toContain('/api/cars/'.$car->id.'/image');
+        expect($response->json('image_url'))->not->toBeNull();
+        expect($response->json('image_url'))->toContain('/api/cars/'.$car->id.'/image');
 
         // Assert file was stored in private storage
         Storage::disk('private')->assertExists('cars/'.$image->hashName());

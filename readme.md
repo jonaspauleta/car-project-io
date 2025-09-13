@@ -10,7 +10,7 @@
 # dbngin with MySQL 8.4.2
 
 ## Packages I have used and not featured on this project
-# Sentry, spatie/laravel-pdf, hammerstone/sidecar, Laravel Cashier, Laravel Sail, Laravel Scout
+# Sentry, spatie/laravel-pdf, hammerstone/sidecar, Laravel Cashier, Laravel Sail, Laravel Scout, Laravel Socialite, Laravel Reverb, Laravel Echo
 
 ## What I didn't feature in this
 # Authorization
@@ -28,6 +28,7 @@
 # composer ide-helper
 # composer swagger
 # php artisan make:action 
+# php artisan make:repository
 
 ## Besides Laravel default structure, this codebase features:
 # Actions

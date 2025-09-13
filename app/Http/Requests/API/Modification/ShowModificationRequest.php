@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\API\Modification;
 
-use App\Http\Requests\Traits\Includable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowModificationRequest extends FormRequest
 {
-    use Includable;
-
     /**
      * Determine if the user is authorized to make this request.
      */

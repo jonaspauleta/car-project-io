@@ -13,6 +13,8 @@ use App\Http\Resources\ModificationResource;
 use App\Models\Car;
 use App\Models\Modification;
 use App\Repositories\ModificationRepository;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class ModificationController extends Controller
 {
@@ -157,7 +159,7 @@ class ModificationController extends Controller
     public function index(
         ListModificationsRequest $request,
         Car $car,
-    ) {
+    ): JsonResource {
         $this->authorize('viewAny', [Modification::class, $car]);
 
         return ModificationResource::collection(
@@ -236,7 +238,7 @@ class ModificationController extends Controller
     public function store(
         CreateModificationRequest $request,
         Car $car,
-    ) {
+    ): JsonResource {
         $this->authorize('create', [Modification::class, $car]);
 
         return ModificationResource::make(
@@ -329,7 +331,7 @@ class ModificationController extends Controller
         ShowModificationRequest $request,
         Car $car,
         Modification $modification,
-    ) {
+    ): JsonResource {
         $this->authorize('view', $modification);
 
         return ModificationResource::make(
@@ -430,7 +432,7 @@ class ModificationController extends Controller
         UpdateModificationRequest $request,
         Car $car,
         Modification $modification,
-    ) {
+    ): JsonResource {
         $this->authorize('update', $modification);
 
         return ModificationResource::make(
@@ -497,7 +499,7 @@ class ModificationController extends Controller
     public function destroy(
         Car $car,
         Modification $modification
-    ) {
+    ): Response {
         $this->authorize('delete', $modification);
 
         $this->modificationRepository->delete(

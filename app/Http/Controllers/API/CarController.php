@@ -14,6 +14,7 @@ use App\Http\Resources\CarResource;
 use App\Models\Car;
 use App\Repositories\CarRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
@@ -150,7 +151,7 @@ class CarController extends Controller
      */
     public function index(
         ListCarsRequest $request
-    ) {
+    ): JsonResource {
         $this->authorize('viewAny', Car::class);
 
         return CarResource::collection(
@@ -215,8 +216,9 @@ class CarController extends Controller
      *     )
      * )
      */
-    public function store(CreateCarRequest $request)
-    {
+    public function store(
+        CreateCarRequest $request,
+    ): JsonResource {
         $this->authorize('create', Car::class);
 
         return CarResource::make(
@@ -296,8 +298,10 @@ class CarController extends Controller
      *     )
      * )
      */
-    public function show(ShowCarRequest $request, Car $car)
-    {
+    public function show(
+        ShowCarRequest $request,
+        Car $car,
+    ): JsonResource {
         $this->authorize('view', $car);
 
         return CarResource::make(
@@ -383,8 +387,10 @@ class CarController extends Controller
      *     )
      * )
      */
-    public function update(UpdateCarRequest $request, Car $car)
-    {
+    public function update(
+        UpdateCarRequest $request,
+        Car $car,
+    ): JsonResource {
         $this->authorize('update', $car);
 
         return CarResource::make(
@@ -439,8 +445,9 @@ class CarController extends Controller
      *     )
      * )
      */
-    public function destroy(Car $car)
-    {
+    public function destroy(
+        Car $car,
+    ): Response {
         $this->authorize('delete', $car);
 
         $this->carRepository->delete(
@@ -530,8 +537,10 @@ class CarController extends Controller
      *     )
      * )
      */
-    public function uploadImage(UploadCarImageRequest $request, Car $car): JsonResponse
-    {
+    public function uploadImage(
+        UploadCarImageRequest $request,
+        Car $car,
+    ): JsonResource {
         $this->authorize('update', $car);
 
         // Delete old image if exists
@@ -549,9 +558,7 @@ class CarController extends Controller
         // Update car with new image URL (store the actual path for serving)
         $car->update(['image_url' => $imagePath]);
 
-        return response()->json([
-            'data' => CarResource::make($car->fresh()),
-        ]);
+        return CarResource::make($car->fresh());
     }
 
     /**
@@ -613,8 +620,9 @@ class CarController extends Controller
      *     )
      * )
      */
-    public function image(Car $car): Response|JsonResponse
-    {
+    public function image(
+        Car $car,
+    ): Response|JsonResponse {
         $this->authorize('view', $car);
 
         // Check if car has an image

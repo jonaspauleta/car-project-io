@@ -8,9 +8,11 @@ use App\Http\Requests\PaginatedRequest;
 use App\Models\Car;
 use App\Models\Modification;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Collection;
 use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * @extends BaseRepository<Modification>
+ */
 class ModificationRepository extends BaseRepository
 {
     public const ALLOWED_INCLUDES = ['car'];
@@ -22,27 +24,30 @@ class ModificationRepository extends BaseRepository
     /**
      * Get all modifications for a specific car owned by the authenticated user.
      *
-     * @return Collection<int, Modification>
+     * @return Paginator<int, Modification>
      */
     public function list(
         PaginatedRequest $request,
         Car $car,
     ): Paginator {
+        /** @var QueryBuilder<Modification> $query */
         $query = QueryBuilder::for(Modification::class)
+            ->allowedSorts(self::ALLOWED_SORTS)
+            ->allowedFilters(self::ALLOWED_FILTERS)
             ->with(self::ALLOWED_INCLUDES)
             ->where('car_id', $car->id)
             ->whereHas('car', function ($query) {
                 $query->where('user_id', auth()->id());
-            })
-            ->defaultSort('id')
-            ->allowedSorts(self::ALLOWED_SORTS)
-            ->allowedFilters(self::ALLOWED_FILTERS)
-            ->where($request->has('search') && $request->search ? function ($q) use ($request) {
+            });
+
+        if ($request->has('search') && $request->search) {
+            $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', "%{$request->search}%")
                     ->orWhere('category', 'like', "%{$request->search}%")
                     ->orWhere('brand', 'like', "%{$request->search}%")
                     ->orWhere('vendor', 'like', "%{$request->search}%");
-            } : null);
+            });
+        }
 
         return $this->paginate($request, $query);
     }

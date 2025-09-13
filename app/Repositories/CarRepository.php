@@ -7,9 +7,11 @@ namespace App\Repositories;
 use App\Http\Requests\PaginatedRequest;
 use App\Models\Car;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Collection;
 use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * @extends BaseRepository<Car>
+ */
 class CarRepository extends BaseRepository
 {
     public const ALLOWED_INCLUDES = ['user', 'modifications'];
@@ -21,23 +23,26 @@ class CarRepository extends BaseRepository
     /**
      * Get all cars.
      *
-     * @return Collection<int, Car>
+     * @return Paginator<int, Car>
      */
     public function list(
         PaginatedRequest $request,
     ): Paginator {
+        /** @var QueryBuilder<Car> $query */
         $query = QueryBuilder::for(Car::class)
-            ->with(self::ALLOWED_INCLUDES)
-            ->where('user_id', auth()->id())
-            ->defaultSort('id')
             ->allowedSorts(self::ALLOWED_SORTS)
             ->allowedFilters(self::ALLOWED_FILTERS)
-            ->where($request->has('search') && $request->search ? function ($q) use ($request) {
+            ->with(self::ALLOWED_INCLUDES)
+            ->where('user_id', auth()->id());
+
+        if ($request->has('search') && $request->search) {
+            $query->where(function ($q) use ($request) {
                 $q->where('make', 'like', "%{$request->search}%")
                     ->orWhere('model', 'like', "%{$request->search}%")
                     ->orWhere('nickname', 'like', "%{$request->search}%")
                     ->orWhere('vin', 'like', "%{$request->search}%");
-            } : null);
+            });
+        }
 
         return $this->paginate($request, $query);
     }

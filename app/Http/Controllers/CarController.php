@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Car\ListCarsRequest;
 use App\Http\Requests\Car\StoreCarRequest;
 use App\Http\Requests\Car\UpdateCarRequest;
+use App\Http\Resources\CarResource;
 use App\Models\Car;
 use App\Repositories\CarRepository;
 use Illuminate\Http\RedirectResponse;
@@ -26,10 +27,10 @@ class CarController extends Controller
     {
         $this->authorize('viewAny', Car::class);
 
-        $cars = $this->carRepository->list($request);
+        $cars = CarResource::collection($this->carRepository->list($request));
 
         return Inertia::render('Cars/Index', [
-            'cars' => $cars->toResourceCollection(),
+            'cars' => $cars,
             'filters' => $request->only(['search', 'make', 'model', 'year']),
         ]);
     }
