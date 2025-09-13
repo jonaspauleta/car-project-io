@@ -16,7 +16,7 @@ class CreateCarRequest extends FormRequest
      *
      * @var list<string>
      */
-    protected $allowedIncludes = ['user', 'modifications'];
+    public $allowedIncludes = ['user', 'modifications'];
 
     /**
      * Determine if the user is authorized to make this request.
@@ -40,7 +40,7 @@ class CreateCarRequest extends FormRequest
             'year' => ['required', 'integer'],
             'nickname' => ['nullable', 'string'],
             'vin' => ['nullable', 'string'],
-            'image_url' => ['nullable', 'string'],
+            //'image_url' => ['nullable', 'string'], TODO: add validation for image url
             'notes' => ['nullable', 'string'],
         ];
     }

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Car;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\JsonResource;
 
 /**
  * Class CarResource
@@ -12,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @mixin Car
  */
 class CarResource extends JsonResource
-{
+{    
     /**
      * Transform the resource into an array.
      *
@@ -21,17 +21,16 @@ class CarResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'make' => $this->make,
-            'model' => $this->model,
-            'year' => $this->year,
-            'nickname' => $this->nickname,
-            'vin' => $this->vin,
-            'image_url' => $this->image_url,
-            'notes' => $this->notes,
-            'user_id' => $this->user_id,
-            'user' => $this->user,
-            'modifications' => $this->modifications,
+            'id' => $this->whenSelected('id'), 
+            'make' => $this->whenSelected('make'),
+            'model' => $this->whenSelected('model'),
+            'year' => $this->whenSelected('year'),
+            'nickname' => $this->whenSelected('nickname'),
+            'vin' => $this->whenSelected('vin'),
+            'image_url' => $this->whenSelected('image_url'),
+            'notes' => $this->whenSelected('notes'),
+            'user' => UserResource::make($this->whenLoaded('user')),
+            'modifications' => ModificationResource::collection($this->whenLoaded('modifications')),
         ];
     }
 }

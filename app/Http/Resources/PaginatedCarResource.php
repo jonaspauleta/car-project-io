@@ -9,5 +9,5 @@ use App\Http\Resources\CarResource;
  */
 class PaginatedCarResource extends PaginatedResource
 {
-    protected $resourceClass = CarResource::class;
+    protected $childResourceClass = CarResource::class;
 }

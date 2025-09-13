@@ -9,8 +9,6 @@ use App\Http\Resources\CarResource;
 use App\Models\Car;
 use App\Repositories\CarRepository;
 use App\Http\Requests\API\Car\ListCarsRequest;
-use App\Http\Resources\PaginatedCarResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use App\Http\Requests\API\Car\ShowCarRequest;
 use App\Http\Requests\API\Car\UpdateCarRequest;
 use App\Http\Requests\API\Car\CreateCarRequest;
@@ -26,9 +24,9 @@ class CarController extends Controller
      */
     public function index(
         ListCarsRequest $request
-    ): ResourceCollection
+    )
     {
-        return PaginatedCarResource::collection(
+        return CarResource::collection(
             $this->carRepository->list($request)
         );
     }
@@ -40,7 +38,7 @@ class CarController extends Controller
     {
         return CarResource::make(
             $this->carRepository->create(
-                $request->validated()
+                $request->merge(['user_id' => auth()->user()->id])->toArray()
             )
         );
     }

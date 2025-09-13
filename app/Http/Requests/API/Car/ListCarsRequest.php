@@ -8,31 +8,11 @@ use App\Http\Requests\API\PaginatedAPIRequest;
 use App\Http\Requests\Traits\Filterable;
 use App\Http\Requests\Traits\Includable;
 use App\Http\Requests\Traits\Sortable;
+use App\Repositories\CarRepository;
 
 class ListCarsRequest extends PaginatedAPIRequest
 {
     use Filterable, Includable, Sortable;
-
-    /**
-     * The allowed sorts.
-     *
-     * @var list<string>
-     */
-    protected $allowedSorts = ['id', 'make', 'year'];
-
-    /**
-     * The allowed filters.
-     *
-     * @var list<string>
-     */
-    protected $allowedFilters = ['make', 'model', 'year', 'nickname', 'vin'];
-
-    /**
-     * The allowed includes.
-     *
-     * @var list<string>
-     */
-    protected $allowedIncludes = ['user', 'modifications'];
 
     /**
      * Determine if the user is authorized to make this request.
@@ -50,9 +30,9 @@ class ListCarsRequest extends PaginatedAPIRequest
     public function rules(): array
     {
         return [
-            ...$this->allowedSorts($this->allowedSorts),
-            ...$this->allowedFilters($this->allowedFilters),
-            ...$this->allowedIncludes($this->allowedIncludes),
+            ...$this->allowedSorts(CarRepository::ALLOWED_SORTS),
+            ...$this->allowedFilters(CarRepository::ALLOWED_FILTERS),
+            ...$this->allowedIncludes(CarRepository::ALLOWED_INCLUDES),
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\JsonResource;
 
 /**
  * Class UserResource
@@ -21,10 +21,10 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'cars' => $this->cars,
+            'id' => $this->whenSelected('id'),  
+            'name' => $this->whenSelected('name'),
+            'email' => $this->whenSelected('email'),
+            'cars' => CarResource::collection($this->whenSelected('cars')),
         ];
     }
 }

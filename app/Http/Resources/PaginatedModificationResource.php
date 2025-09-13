@@ -7,5 +7,5 @@ namespace App\Http\Resources;
  */
 class PaginatedModificationResource extends PaginatedResource
 {
-    protected $resourceClass = ModificationResource::class;
+    protected $childResourceClass = ModificationResource::class;
 }

@@ -16,8 +16,10 @@ use Spatie\QueryBuilder\QueryBuilder;
 class BaseRepository
 {
     /**
-     * @param  QueryBuilder<TModel>|Builder<TModel>  $queryBuilder
-     * @return Paginator<int, TModel>
+     * @param PaginatedAPIRequest $request
+     * @param QueryBuilder|Builder<Model> $queryBuilder
+     *
+     * @return Paginator
      */
     public function paginate(
         PaginatedAPIRequest $request,

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Modification;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\JsonResource;
 
 /**
  * Class ModificationResource
@@ -31,7 +31,7 @@ class ModificationResource extends JsonResource
             'installation_date' => $this->installation_date,
             'cost' => $this->cost,
             'is_active' => $this->is_active,
-            'car' => $this->car,
+            'car' => CarResource::make($this->whenLoaded('car')),
         ];
     }
 }

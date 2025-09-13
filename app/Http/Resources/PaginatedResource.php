@@ -11,7 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 abstract class PaginatedResource extends ResourceCollection
 {
-    protected $resourceClass;
+    protected $childResourceClass;
 
     /**
      * Transform the resource collection into an array.
@@ -21,8 +21,11 @@ abstract class PaginatedResource extends ResourceCollection
     public function toArray(Request $request): array
     {
         $data = [
-            'data' => $this->collection->map(function ($resource) use ($request) {
-                return new $this->resourceClass($resource, $request);
+            'data' => $this->collection->map(function ($item) use ($request) {
+                if ($this->childResourceClass) {
+                    return (new $this->childResourceClass($item))->toArray($request);
+                }
+                return $item->toArray($request);
             }),
         ];
 
