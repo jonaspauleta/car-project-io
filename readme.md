@@ -119,26 +119,6 @@ composer swagger       # Generate OpenAPI docs
 composer ide-helper    # Generate IDE helpers
 ```
 
-## 📁 Project Structure
-
-Beyond Laravel's default structure, this project includes:
-
-```
-app/
-├── Actions/           # Action classes for business logic
-├── Repositories/      # Data access layer
-├── Services/          # Service layer (planned)
-├── Policies/          # Authorization policies
-└── Rules/             # Custom validation rules
-
-resources/js/
-├── components/        # Reusable React components
-├── pages/            # Inertia.js pages
-├── layouts/          # Page layouts
-├── hooks/            # Custom React hooks
-└── types/            # TypeScript definitions
-```
-
 ## 🔧 Available Artisan Commands
 
 ```bash
