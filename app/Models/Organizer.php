@@ -20,6 +20,9 @@ class Organizer extends Model
         'logo_url',
     ];
 
+    /**
+     * @return HasMany<Event, $this>
+     */
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);

@@ -28,6 +28,9 @@ class Track extends Model
         'longitude' => 'float',
     ];
 
+    /**
+     * @return HasMany<Event, $this>
+     */
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);

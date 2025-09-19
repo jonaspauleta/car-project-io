@@ -28,11 +28,17 @@ class Event extends Model
         'end_date' => 'date',
     ];
 
+    /**
+     * @return BelongsTo<Track, $this>
+     */
     public function track(): BelongsTo
     {
         return $this->belongsTo(Track::class);
     }
 
+    /**
+     * @return BelongsTo<Organizer, $this>
+     */
     public function organizer(): BelongsTo
     {
         return $this->belongsTo(Organizer::class);
