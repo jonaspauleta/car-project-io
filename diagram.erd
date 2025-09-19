@@ -1,0 +1,769 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dineug/erd-editor/main/json-schema/schema.json",
+  "version": "3.0.0",
+  "settings": {
+    "width": 2000,
+    "height": 2000,
+    "scrollTop": -76,
+    "scrollLeft": -3,
+    "zoomLevel": 1,
+    "show": 431,
+    "database": 4,
+    "databaseName": "Track Day Finder EU",
+    "canvasType": "ERD",
+    "language": 1,
+    "tableNameCase": 4,
+    "columnNameCase": 2,
+    "bracketType": 1,
+    "relationshipDataTypeSync": true,
+    "relationshipOptimization": false,
+    "columnOrder": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "maxWidthComment": -1,
+    "ignoreSaveSettings": 0
+  },
+  "doc": {
+    "tableIds": [
+      "tracks_table",
+      "organizers_table",
+      "events_table"
+    ],
+    "relationshipIds": [
+      "events_tracks_rel",
+      "events_organizers_rel"
+    ],
+    "indexIds": [],
+    "memoIds": []
+  },
+  "collections": {
+    "tableEntities": {
+      "tracks_table": {
+        "id": "tracks_table",
+        "name": "tracks",
+        "comment": "Racing tracks and circuits",
+        "columnIds": [
+          "tracks_id",
+          "tracks_name",
+          "tracks_country",
+          "tracks_city",
+          "tracks_latitude",
+          "tracks_longitude",
+          "tracks_website",
+          "tracks_noise_limit",
+          "tracks_created_at",
+          "tracks_updated_at"
+        ],
+        "seqColumnIds": [
+          "tracks_id",
+          "tracks_name",
+          "tracks_country",
+          "tracks_city",
+          "tracks_latitude",
+          "tracks_longitude",
+          "tracks_website",
+          "tracks_noise_limit",
+          "tracks_created_at",
+          "tracks_updated_at"
+        ],
+        "ui": {
+          "x": 135,
+          "y": 497,
+          "zIndex": 2,
+          "widthName": 60,
+          "widthComment": 135,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1758203071614,
+          "createAt": 1758202855591
+        }
+      },
+      "organizers_table": {
+        "id": "organizers_table",
+        "name": "organizers",
+        "comment": "Track day event organizers",
+        "columnIds": [
+          "organizers_id",
+          "organizers_name",
+          "organizers_email",
+          "organizers_website",
+          "organizers_logo_url",
+          "organizers_created_at",
+          "organizers_updated_at"
+        ],
+        "seqColumnIds": [
+          "organizers_id",
+          "organizers_name",
+          "organizers_email",
+          "organizers_website",
+          "organizers_logo_url",
+          "organizers_created_at",
+          "organizers_updated_at"
+        ],
+        "ui": {
+          "x": 539,
+          "y": 102,
+          "zIndex": 2,
+          "widthName": 60,
+          "widthComment": 142,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1758203063331,
+          "createAt": 1758202855592
+        }
+      },
+      "events_table": {
+        "id": "events_table",
+        "name": "events",
+        "comment": "Track day events",
+        "columnIds": [
+          "events_id",
+          "events_track_id",
+          "events_organizer_id",
+          "events_title",
+          "events_description",
+          "events_start_date",
+          "events_end_date",
+          "events_website",
+          "events_created_at",
+          "events_updated_at"
+        ],
+        "seqColumnIds": [
+          "events_id",
+          "events_track_id",
+          "events_organizer_id",
+          "events_title",
+          "events_description",
+          "events_start_date",
+          "events_end_date",
+          "events_website",
+          "events_created_at",
+          "events_updated_at"
+        ],
+        "ui": {
+          "x": 737,
+          "y": 463,
+          "zIndex": 2,
+          "widthName": 60,
+          "widthComment": 89,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1758203070281,
+          "createAt": 1758202855593
+        }
+      }
+    },
+    "tableColumnEntities": {
+      "tracks_id": {
+        "id": "tracks_id",
+        "tableId": "tracks_table",
+        "name": "id",
+        "comment": "",
+        "dataType": "integer",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868577,
+          "createAt": 1758202865460
+        }
+      },
+      "tracks_name": {
+        "id": "tracks_name",
+        "tableId": "tracks_table",
+        "name": "name",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868578,
+          "createAt": 1758202865461
+        }
+      },
+      "tracks_country": {
+        "id": "tracks_country",
+        "tableId": "tracks_table",
+        "name": "country",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868579,
+          "createAt": 1758202865462
+        }
+      },
+      "tracks_city": {
+        "id": "tracks_city",
+        "tableId": "tracks_table",
+        "name": "city",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868580,
+          "createAt": 1758202865463
+        }
+      },
+      "tracks_latitude": {
+        "id": "tracks_latitude",
+        "tableId": "tracks_table",
+        "name": "latitude",
+        "comment": "",
+        "dataType": "decimal(10,8)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 72,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868581,
+          "createAt": 1758202865464
+        }
+      },
+      "tracks_longitude": {
+        "id": "tracks_longitude",
+        "tableId": "tracks_table",
+        "name": "longitude",
+        "comment": "",
+        "dataType": "decimal(11,8)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 72,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868582,
+          "createAt": 1758202865465
+        }
+      },
+      "tracks_website": {
+        "id": "tracks_website",
+        "tableId": "tracks_table",
+        "name": "website",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868583,
+          "createAt": 1758202865466
+        }
+      },
+      "tracks_noise_limit": {
+        "id": "tracks_noise_limit",
+        "tableId": "tracks_table",
+        "name": "noise_limit",
+        "comment": "dB limit for track days",
+        "dataType": "integer",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 117,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868584,
+          "createAt": 1758202865467
+        }
+      },
+      "tracks_created_at": {
+        "id": "tracks_created_at",
+        "tableId": "tracks_table",
+        "name": "created_at",
+        "comment": "",
+        "dataType": "datetime",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868585,
+          "createAt": 1758202865468
+        }
+      },
+      "tracks_updated_at": {
+        "id": "tracks_updated_at",
+        "tableId": "tracks_table",
+        "name": "updated_at",
+        "comment": "",
+        "dataType": "datetime",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 62,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868586,
+          "createAt": 1758202865469
+        }
+      },
+      "organizers_id": {
+        "id": "organizers_id",
+        "tableId": "organizers_table",
+        "name": "id",
+        "comment": "",
+        "dataType": "integer",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868587,
+          "createAt": 1758202865470
+        }
+      },
+      "organizers_name": {
+        "id": "organizers_name",
+        "tableId": "organizers_table",
+        "name": "name",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868588,
+          "createAt": 1758202865471
+        }
+      },
+      "organizers_email": {
+        "id": "organizers_email",
+        "tableId": "organizers_table",
+        "name": "email",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868589,
+          "createAt": 1758202865472
+        }
+      },
+      "organizers_website": {
+        "id": "organizers_website",
+        "tableId": "organizers_table",
+        "name": "website",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868590,
+          "createAt": 1758202865473
+        }
+      },
+      "organizers_logo_url": {
+        "id": "organizers_logo_url",
+        "tableId": "organizers_table",
+        "name": "logo_url",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868591,
+          "createAt": 1758202865474
+        }
+      },
+      "organizers_created_at": {
+        "id": "organizers_created_at",
+        "tableId": "organizers_table",
+        "name": "created_at",
+        "comment": "",
+        "dataType": "datetime",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868592,
+          "createAt": 1758202865475
+        }
+      },
+      "organizers_updated_at": {
+        "id": "organizers_updated_at",
+        "tableId": "organizers_table",
+        "name": "updated_at",
+        "comment": "",
+        "dataType": "datetime",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 62,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868593,
+          "createAt": 1758202865476
+        }
+      },
+      "events_id": {
+        "id": "events_id",
+        "tableId": "events_table",
+        "name": "id",
+        "comment": "",
+        "dataType": "integer",
+        "default": "",
+        "options": 11,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868594,
+          "createAt": 1758202865477
+        }
+      },
+      "events_track_id": {
+        "id": "events_track_id",
+        "tableId": "events_table",
+        "name": "track_id",
+        "comment": "",
+        "dataType": "integer",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868595,
+          "createAt": 1758202865478
+        }
+      },
+      "events_organizer_id": {
+        "id": "events_organizer_id",
+        "tableId": "events_table",
+        "name": "organizer_id",
+        "comment": "",
+        "dataType": "integer",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 67,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868596,
+          "createAt": 1758202865479
+        }
+      },
+      "events_title": {
+        "id": "events_title",
+        "tableId": "events_table",
+        "name": "title",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868597,
+          "createAt": 1758202865480
+        }
+      },
+      "events_description": {
+        "id": "events_description",
+        "tableId": "events_table",
+        "name": "description",
+        "comment": "",
+        "dataType": "text",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 61,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868598,
+          "createAt": 1758202865481
+        }
+      },
+      "events_start_date": {
+        "id": "events_start_date",
+        "tableId": "events_table",
+        "name": "start_date",
+        "comment": "",
+        "dataType": "date",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868599,
+          "createAt": 1758202865482
+        }
+      },
+      "events_end_date": {
+        "id": "events_end_date",
+        "tableId": "events_table",
+        "name": "end_date",
+        "comment": "",
+        "dataType": "date",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868600,
+          "createAt": 1758202865483
+        }
+      },
+      "events_website": {
+        "id": "events_website",
+        "tableId": "events_table",
+        "name": "website",
+        "comment": "",
+        "dataType": "varchar(255)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 67,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868601,
+          "createAt": 1758202865484
+        }
+      },
+      "events_created_at": {
+        "id": "events_created_at",
+        "tableId": "events_table",
+        "name": "created_at",
+        "comment": "",
+        "dataType": "datetime",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868602,
+          "createAt": 1758202865485
+        }
+      },
+      "events_updated_at": {
+        "id": "events_updated_at",
+        "tableId": "events_table",
+        "name": "updated_at",
+        "comment": "",
+        "dataType": "datetime",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 62,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1758202868603,
+          "createAt": 1758202865486
+        }
+      }
+    },
+    "relationshipEntities": {
+      "events_tracks_rel": {
+        "id": "events_tracks_rel",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "tracks_table",
+          "columnIds": [
+            "tracks_id"
+          ],
+          "x": 571,
+          "y": 645,
+          "direction": 2
+        },
+        "end": {
+          "tableId": "events_table",
+          "columnIds": [
+            "events_track_id"
+          ],
+          "x": 737,
+          "y": 611,
+          "direction": 1
+        },
+        "meta": {
+          "updateAt": 1758202868604,
+          "createAt": 1758202865487
+        }
+      },
+      "events_organizers_rel": {
+        "id": "events_organizers_rel",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "organizers_table",
+          "columnIds": [
+            "organizers_id"
+          ],
+          "x": 726,
+          "y": 326,
+          "direction": 8
+        },
+        "end": {
+          "tableId": "events_table",
+          "columnIds": [
+            "events_organizer_id"
+          ],
+          "x": 926.5,
+          "y": 463,
+          "direction": 4
+        },
+        "meta": {
+          "updateAt": 1758202868605,
+          "createAt": 1758202865488
+        }
+      }
+    },
+    "indexEntities": {},
+    "indexColumnEntities": {},
+    "memoEntities": {}
+  }
+}

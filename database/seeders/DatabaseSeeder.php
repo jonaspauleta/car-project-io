@@ -32,5 +32,7 @@ class DatabaseSeeder extends Seeder
         $car = Car::factory()->count(15)->create([
             'user_id' => $user->id,
         ]);
+
+        Event::factory(10)->create();
     }
 }
