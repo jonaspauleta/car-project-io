@@ -20,13 +20,28 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
+        $eventTypes = [
+            'Track Day Experience',
+            'Open Track Day',
+            'Racing School Event',
+            'Time Attack Series',
+            'Driver Training Day',
+            'Supercar Track Day',
+            'Beginner Track Day',
+            'Advanced Driving Course',
+            'Car Club Track Day',
+            'Performance Driving Experience'
+        ];
+
+        $startDate = $this->faker->dateTimeBetween('now', '+6 months');
+
         return [
             'track_id' => Track::factory(),
             'organizer_id' => Organizer::factory(),
-            'title' => $this->faker->name(),
+            'title' => $this->faker->randomElement($eventTypes),
             'description' => $this->faker->sentence(),
-            'start_date' => $this->faker->date(),
-            'end_date' => $this->faker->date(),
+            'start_date' => $startDate,
+            'end_date' => $startDate,
             'website' => $this->faker->url(),
         ];
     }

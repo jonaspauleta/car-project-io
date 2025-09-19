@@ -18,11 +18,27 @@ class OrganizerFactory extends Factory
      */
     public function definition(): array
     {
+        $organizerNames = [
+            'Track Day Events Ltd',
+            'Racing Experiences Inc',
+            'Performance Driving Academy',
+            'Supercar Track Days',
+            'Circuit Masters',
+            'Apex Track Events',
+            'Velocity Track Days',
+            'Elite Driving Experiences',
+            'Track Time Events',
+            'Racing School International',
+            'Fast Lane Track Days',
+            'Circuit Experience Co',
+            'Track Masters Events'
+        ];
+
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->email(),
+            'name' => $this->faker->randomElement($organizerNames),
+            'email' => $this->faker->companyEmail(),
             'website' => $this->faker->url(),
-            'logo_url' => $this->faker->imageUrl(),
+            'logo_url' => $this->faker->imageUrl(200, 200, 'business'),
         ];
     }
 }

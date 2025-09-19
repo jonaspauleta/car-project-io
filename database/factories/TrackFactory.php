@@ -20,12 +20,12 @@ class TrackFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'country' => $this->faker->country(),
             'city' => $this->faker->city(),
+            'country' => $this->faker->country(),
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
-            'website' => $this->faker->url(),
-            'noise_limit' => $this->faker->boolean() ? $this->faker->numberBetween(0, 120) : null,
+            'website' => null,
+            'noise_limit' => null,
         ];
     }
 }
