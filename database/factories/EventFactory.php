@@ -30,7 +30,7 @@ class EventFactory extends Factory
             'Beginner Track Day',
             'Advanced Driving Course',
             'Car Club Track Day',
-            'Performance Driving Experience'
+            'Performance Driving Experience',
         ];
 
         $startDate = $this->faker->dateTimeBetween('now', '+6 months');

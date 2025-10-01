@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
@@ -14,6 +16,8 @@ class TwoFactorAuthenticationController extends Controller implements HasMiddlew
 {
     /**
      * Get the middleware that should be assigned to the controller.
+     *
+     * @return list<Middleware>
      */
     public static function middleware(): array
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Cars;
 
 use App\Filament\Resources\Cars\Pages\CreateCar;

@@ -7,7 +7,6 @@ use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\ModificationController;
 use App\Http\Controllers\TrackDayFinderController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', TrackDayFinderController::class)->name('home');
 

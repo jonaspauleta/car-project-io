@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Carbon\Carbon;
-use Illuminate\Http\Response;
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 

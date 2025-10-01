@@ -31,7 +31,7 @@ class OrganizerFactory extends Factory
             'Racing School International',
             'Fast Lane Track Days',
             'Circuit Experience Co',
-            'Track Masters Events'
+            'Track Masters Events',
         ];
 
         return [

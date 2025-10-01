@@ -24,8 +24,8 @@ class TrackFactory extends Factory
             'country' => $this->faker->country(),
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
-            'website' => null,
-            'noise_limit' => null,
+            'website' => $this->faker->optional(0.3)->url(),
+            'noise_limit' => $this->faker->optional(0.4)->numberBetween(80, 120),
         ];
     }
 }
