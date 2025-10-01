@@ -10,9 +10,15 @@ describe('OrganizerFactory', function () {
         $organizer = Organizer::factory()->make();
 
         expect($organizer->name)->toBeString()->not->toBeEmpty();
-        expect($organizer->email)->toBeString()->toContain('@')->or->toBeNull();
-        expect($organizer->website)->toBeString()->or->toBeNull();
-        expect($organizer->logo_url)->toBeString()->or->toBeNull();
+        expect($organizer->email)->toBeString()->toContain('@');
+
+        if ($organizer->website !== null) {
+            expect($organizer->website)->toBeString();
+        }
+
+        if ($organizer->logo_url !== null) {
+            expect($organizer->logo_url)->toBeString();
+        }
     });
 
     it('can create organizers in bulk', function () {
@@ -61,6 +67,18 @@ describe('OrganizerFactory', function () {
         expect($organizer->email)->toBeNull();
         expect($organizer->website)->toBeNull();
         expect($organizer->logo_url)->toBeNull();
+    });
+
+    it('can create organizers with string optional fields', function () {
+        $organizer = Organizer::factory()->make([
+            'email' => 'contact@example.com',
+            'website' => 'https://example.com',
+            'logo_url' => 'https://example.com/logo.png',
+        ]);
+
+        expect($organizer->email)->toBeString()->toContain('@');
+        expect($organizer->website)->toBeString();
+        expect($organizer->logo_url)->toBeString();
     });
 
     it('generates valid website URLs when present', function () {

@@ -14,12 +14,13 @@ describe('TrackFactory', function () {
         expect($track->city)->toBeString()->not->toBeEmpty();
         expect($track->latitude)->toBeFloat()->toBeBetween(-90, 90);
         expect($track->longitude)->toBeFloat()->toBeBetween(-180, 180);
-        expect($track->website)->toBeString()->or->toBeNull();
+
+        if ($track->website !== null) {
+            expect($track->website)->toBeString();
+        }
 
         if ($track->noise_limit !== null) {
             expect($track->noise_limit)->toBeInt()->toBeBetween(0, 120);
-        } else {
-            expect($track->noise_limit)->toBeNull();
         }
     });
 
@@ -72,6 +73,14 @@ describe('TrackFactory', function () {
 
         expect($track->website)->toBeNull();
         expect($track->noise_limit)->toBeNull();
+    });
+
+    it('can create tracks with string optional fields', function () {
+        $track = Track::factory()->make([
+            'website' => 'https://example.com',
+        ]);
+
+        expect($track->website)->toBeString();
     });
 
     it('generates valid coordinates within proper ranges', function () {

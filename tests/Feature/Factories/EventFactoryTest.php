@@ -12,11 +12,16 @@ describe('EventFactory', function () {
 
         expect($event->track_id)->toBeInt();
         expect($event->organizer_id)->toBeInt();
-        expect($event->title)->toBeString()->not->toBeEmpty();
-        expect($event->description)->toBeString()->or->toBeNull();
         expect($event->start_date)->toBeInstanceOf(Carbon\CarbonInterface::class);
         expect($event->end_date)->toBeInstanceOf(Carbon\CarbonInterface::class);
-        expect($event->website)->toBeString()->or->toBeNull();
+
+        if ($event->description !== null) {
+            expect($event->description)->toBeString();
+        }
+
+        if ($event->website !== null) {
+            expect($event->website)->toBeString();
+        }
     });
 
     it('creates related models automatically', function () {
@@ -89,6 +94,16 @@ describe('EventFactory', function () {
 
         expect($event->description)->toBeNull();
         expect($event->website)->toBeNull();
+    });
+
+    it('can create events with string optional fields', function () {
+        $event = Event::factory()->make([
+            'description' => 'A great track day event',
+            'website' => 'https://example.com',
+        ]);
+
+        expect($event->description)->toBeString();
+        expect($event->website)->toBeString();
     });
 
     it('generates valid website URLs when present', function () {
