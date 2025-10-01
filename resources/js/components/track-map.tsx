@@ -16,7 +16,8 @@ const createCustomIcon = () => {
         <svg viewBox="-3 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>pin_fill_sharp_circle [#634]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-223.000000, -5399.000000)" fill="#000000"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M174,5248.219 C172.895,5248.219 172,5247.324 172,5246.219 C172,5245.114 172.895,5244.219 174,5244.219 C175.105,5244.219 176,5245.114 176,5246.219 C176,5247.324 175.105,5248.219 174,5248.219 M174,5239 C170.134,5239 167,5242.134 167,5246 C167,5249.866 174,5259 174,5259 C174,5259 181,5249.866 181,5246 C181,5242.134 177.866,5239 174,5239" id="pin_fill_sharp_circle-[#634]"> </path> </g> </g> </g> </g></svg>
     `;
 
-    const redMarkerRetinaUrl = 'data:image/svg+xml;base64,' + btoa(redMarkerSvg);
+    const redMarkerRetinaUrl =
+        'data:image/svg+xml;base64,' + btoa(redMarkerSvg);
     const redMarkerUrl = 'data:image/svg+xml;base64,' + btoa(redMarkerSvg);
 
     return L.icon({
@@ -61,12 +62,22 @@ interface TrackMapProps {
 }
 
 // Popup component using Shadcn UI for track information
-function TrackPopup({ track, eventCount, onFilterTrack }: { track: Event['track']; eventCount: number; onFilterTrack: (trackId: number) => void }) {
+function TrackPopup({
+    track,
+    eventCount,
+    onFilterTrack,
+}: {
+    track: Event['track'];
+    eventCount: number;
+    onFilterTrack: (trackId: number) => void;
+}) {
     return (
         <Card className="w-80 border-0 shadow-lg">
             <CardContent className="space-y-4 p-4">
                 <div className="space-y-2">
-                    <h3 className="text-lg leading-tight font-semibold">{track.name}</h3>
+                    <h3 className="text-lg leading-tight font-semibold">
+                        {track.name}
+                    </h3>
                     <Badge variant="secondary" className="gap-1">
                         <Calendar className="h-3 w-3" />
                         {eventCount} event{eventCount !== 1 ? 's' : ''}
@@ -81,19 +92,26 @@ function TrackPopup({ track, eventCount, onFilterTrack }: { track: Event['track'
                                 {track.city}, {track.country}
                             </div>
                             <div className="text-xs text-muted-foreground">
-                                {track.latitude.toFixed(4)}, {track.longitude.toFixed(4)}
+                                {track.latitude.toFixed(4)},{' '}
+                                {track.longitude.toFixed(4)}
                             </div>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <Building className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
-                        <span className="text-muted-foreground">Racing Circuit</span>
+                        <span className="text-muted-foreground">
+                            Racing Circuit
+                        </span>
                     </div>
                 </div>
 
                 <Separator />
-                <Button onClick={() => onFilterTrack(track.id)} className="w-full gap-2" size="sm">
+                <Button
+                    onClick={() => onFilterTrack(track.id)}
+                    className="w-full gap-2"
+                    size="sm"
+                >
                     <Calendar className="h-4 w-4" />
                     View Events at This Track
                 </Button>
@@ -102,7 +120,12 @@ function TrackPopup({ track, eventCount, onFilterTrack }: { track: Event['track'
     );
 }
 
-export default function TrackMap({ events, className = '', isLoading = false, onFilterTrack }: TrackMapProps) {
+export default function TrackMap({
+    events,
+    className = '',
+    isLoading = false,
+    onFilterTrack,
+}: TrackMapProps) {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<L.Map | null>(null);
 
@@ -123,7 +146,8 @@ export default function TrackMap({ events, className = '', isLoading = false, on
 
         // Add tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            attribution:
+                '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
 
         // Group events by track to avoid duplicate markers
@@ -156,7 +180,13 @@ export default function TrackMap({ events, className = '', isLoading = false, on
 
                 // Pre-render the React component to get proper dimensions
                 const root = createRoot(popupContainer);
-                root.render(<TrackPopup track={track} eventCount={trackEvents.length} onFilterTrack={onFilterTrack || (() => {})} />);
+                root.render(
+                    <TrackPopup
+                        track={track}
+                        eventCount={trackEvents.length}
+                        onFilterTrack={onFilterTrack || (() => {})}
+                    />,
+                );
 
                 // Create popup with the container
                 const popup = L.popup({
@@ -213,30 +243,54 @@ export default function TrackMap({ events, className = '', isLoading = false, on
                 <div className="border-b border-border p-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h3 className="text-lg font-semibold text-foreground">Track Day Events Map</h3>
-                            <p className="mt-1 text-sm text-muted-foreground">Click on any marker to see event details</p>
+                            <h3 className="text-lg font-semibold text-foreground">
+                                Track Day Events Map
+                            </h3>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                                Click on any marker to see event details
+                            </p>
                         </div>
                         <Badge variant="secondary">
-                            {events.length} event{events.length !== 1 ? 's' : ''}
+                            {events.length} event
+                            {events.length !== 1 ? 's' : ''}
                         </Badge>
                     </div>
                 </div>
                 <div className="relative overflow-hidden rounded-b-lg">
-                    <div ref={mapRef} className="h-96 w-full transition-all duration-300" style={{ minHeight: '400px' }} />
+                    <div
+                        ref={mapRef}
+                        className="h-96 w-full transition-all duration-300"
+                        style={{ minHeight: '400px' }}
+                    />
                     {events.length === 0 && (
                         <div className="absolute inset-0 flex items-center justify-center bg-muted/50">
                             <div className="text-center">
-                                <svg className="mx-auto h-12 w-12 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg
+                                    className="mx-auto h-12 w-12 text-muted-foreground"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
                                         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
                                     />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                    />
                                 </svg>
-                                <h3 className="mt-2 text-sm font-medium text-muted-foreground">No events found</h3>
-                                <p className="mt-1 text-sm text-muted-foreground">There are no upcoming track day events to display.</p>
+                                <h3 className="mt-2 text-sm font-medium text-muted-foreground">
+                                    No events found
+                                </h3>
+                                <p className="mt-1 text-sm text-muted-foreground">
+                                    There are no upcoming track day events to
+                                    display.
+                                </p>
                             </div>
                         </div>
                     )}

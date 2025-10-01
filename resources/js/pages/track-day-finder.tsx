@@ -55,16 +55,30 @@ export default function TrackDayFinder({ events }: TrackDayFinderProps) {
                         <div className="flex h-16 items-center justify-between">
                             <div className="flex items-center space-x-4">
                                 <div className="flex items-center space-x-2">
-                                    <svg className="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    <svg
+                                        className="h-8 w-8 text-primary"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                                        />
                                     </svg>
-                                    <h1 className="text-xl font-bold text-foreground">Track Day Finder</h1>
+                                    <h1 className="text-xl font-bold text-foreground">
+                                        Track Day Finder
+                                    </h1>
                                 </div>
                             </div>
                             <nav className="flex items-center space-x-4">
                                 {auth.user ? (
                                     <Button asChild>
-                                        <Link href={dashboard()}>Dashboard</Link>
+                                        <Link href={dashboard()}>
+                                            Dashboard
+                                        </Link>
                                     </Button>
                                 ) : (
                                     <>
@@ -72,7 +86,9 @@ export default function TrackDayFinder({ events }: TrackDayFinderProps) {
                                             <Link href={login()}>Log in</Link>
                                         </Button>
                                         <Button asChild>
-                                            <Link href={register()}>Register</Link>
+                                            <Link href={register()}>
+                                                Register
+                                            </Link>
                                         </Button>
                                     </>
                                 )}
@@ -89,7 +105,9 @@ export default function TrackDayFinder({ events }: TrackDayFinderProps) {
                                 Find Your Next Track Day Adventure
                             </h2>
                             <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-                                Discover track day events around the world. Click on any marker to see event details and get more information.
+                                Discover track day events around the world.
+                                Click on any marker to see event details and get
+                                more information.
                             </p>
                             <div className="flex items-center justify-center space-x-4 pt-4">
                                 <Badge variant="secondary" className="text-sm">
@@ -106,7 +124,10 @@ export default function TrackDayFinder({ events }: TrackDayFinderProps) {
                 {/* Map Section */}
                 <section className="py-12">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                        <TrackMap events={events} onFilterTrack={handleFilterTrack} />
+                        <TrackMap
+                            events={events}
+                            onFilterTrack={handleFilterTrack}
+                        />
                     </div>
                 </section>
 
@@ -114,7 +135,11 @@ export default function TrackDayFinder({ events }: TrackDayFinderProps) {
                 {events.length > 0 && (
                     <section className="bg-muted/30 py-12">
                         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                            <EventsCalendar events={events} filteredTrackId={filteredTrackId} onClearFilter={handleClearFilter} />
+                            <EventsCalendar
+                                events={events}
+                                filteredTrackId={filteredTrackId}
+                                onClearFilter={handleClearFilter}
+                            />
                         </div>
                     </section>
                 )}
@@ -140,12 +165,19 @@ export default function TrackDayFinder({ events }: TrackDayFinderProps) {
                                             />
                                         </svg>
                                         <div>
-                                            <h3 className="text-lg font-medium text-foreground">No events scheduled</h3>
+                                            <h3 className="text-lg font-medium text-foreground">
+                                                No events scheduled
+                                            </h3>
                                             <p className="mt-1 text-muted-foreground">
-                                                There are no upcoming track day events at the moment. Check back later!
+                                                There are no upcoming track day
+                                                events at the moment. Check back
+                                                later!
                                             </p>
                                         </div>
-                                        <Button variant="outline" className="mt-4">
+                                        <Button
+                                            variant="outline"
+                                            className="mt-4"
+                                        >
                                             Refresh Page
                                         </Button>
                                     </div>
@@ -160,20 +192,44 @@ export default function TrackDayFinder({ events }: TrackDayFinderProps) {
                     <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
                         <div className="space-y-4 text-center">
                             <div className="flex items-center justify-center space-x-2">
-                                <svg className="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                <svg
+                                    className="h-6 w-6 text-primary"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                                    />
                                 </svg>
-                                <span className="font-semibold text-foreground">Track Day Finder</span>
+                                <span className="font-semibold text-foreground">
+                                    Track Day Finder
+                                </span>
                             </div>
-                            <p className="text-sm text-muted-foreground">&copy; 2024 Track Day Finder. Find your perfect track day experience.</p>
+                            <p className="text-sm text-muted-foreground">
+                                &copy; 2024 Track Day Finder. Find your perfect
+                                track day experience.
+                            </p>
                             <div className="flex items-center justify-center space-x-6 text-sm">
-                                <a href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <a
+                                    href="#"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     About
                                 </a>
-                                <a href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <a
+                                    href="#"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Contact
                                 </a>
-                                <a href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <a
+                                    href="#"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Privacy
                                 </a>
                             </div>

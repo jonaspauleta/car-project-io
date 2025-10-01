@@ -1,15 +1,34 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import Pagination from '@/components/ui/custom-pagination';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import cars from '@/routes/cars';
 import { type BreadcrumbItem, type Car, type PaginatedResponse } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Calendar, Car as CarIcon, Filter, Plus, Search, X } from 'lucide-react';
+import {
+    Calendar,
+    Car as CarIcon,
+    Filter,
+    Plus,
+    Search,
+    X,
+} from 'lucide-react';
 import { useState } from 'react';
 
 interface CarsIndexProps {
@@ -69,12 +88,22 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
         );
     };
 
-    const hasActiveFilters = search || (make && make !== 'all') || (model && model !== 'all') || (year && year !== 'all');
+    const hasActiveFilters =
+        search ||
+        (make && make !== 'all') ||
+        (model && model !== 'all') ||
+        (year && year !== 'all');
 
     // Generate unique makes, models, and years from the data
-    const uniqueMakes = [...new Set(carsData.data.map((car) => car.make))].sort();
-    const uniqueModels = [...new Set(carsData.data.map((car) => car.model))].sort();
-    const uniqueYears = [...new Set(carsData.data.map((car) => car.year))].sort((a, b) => b - a);
+    const uniqueMakes = [
+        ...new Set(carsData.data.map((car) => car.make)),
+    ].sort();
+    const uniqueModels = [
+        ...new Set(carsData.data.map((car) => car.model)),
+    ].sort();
+    const uniqueYears = [...new Set(carsData.data.map((car) => car.year))].sort(
+        (a, b) => b - a,
+    );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -84,8 +113,12 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">My Cars</h1>
-                        <p className="text-muted-foreground">Manage your car collection and modifications</p>
+                        <h1 className="text-3xl font-bold tracking-tight">
+                            My Cars
+                        </h1>
+                        <p className="text-muted-foreground">
+                            Manage your car collection and modifications
+                        </p>
                     </div>
                     <Link href={cars.create.url()}>
                         <Button>
@@ -104,10 +137,17 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                     <Filter className="h-5 w-5" />
                                     Search & Filter
                                 </CardTitle>
-                                <CardDescription>Find cars by make, model, year, or nickname</CardDescription>
+                                <CardDescription>
+                                    Find cars by make, model, year, or nickname
+                                </CardDescription>
                             </div>
                             {hasActiveFilters && (
-                                <Button type="button" variant="ghost" size="sm" onClick={clearFilters}>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={clearFilters}
+                                >
                                     <X className="mr-1 h-4 w-4" />
                                     Clear All
                                 </Button>
@@ -132,14 +172,22 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                 {/* Make Filter */}
                                 <div className="space-y-2">
                                     <Label htmlFor="make-filter">Make</Label>
-                                    <Select value={make} onValueChange={setMake}>
+                                    <Select
+                                        value={make}
+                                        onValueChange={setMake}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder="All makes" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="all">All makes</SelectItem>
+                                            <SelectItem value="all">
+                                                All makes
+                                            </SelectItem>
                                             {uniqueMakes.map((makeOption) => (
-                                                <SelectItem key={makeOption} value={makeOption}>
+                                                <SelectItem
+                                                    key={makeOption}
+                                                    value={makeOption}
+                                                >
                                                     {makeOption}
                                                 </SelectItem>
                                             ))}
@@ -150,14 +198,22 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                 {/* Model Filter */}
                                 <div className="space-y-2">
                                     <Label htmlFor="model-filter">Model</Label>
-                                    <Select value={model} onValueChange={setModel}>
+                                    <Select
+                                        value={model}
+                                        onValueChange={setModel}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder="All models" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="all">All models</SelectItem>
+                                            <SelectItem value="all">
+                                                All models
+                                            </SelectItem>
                                             {uniqueModels.map((modelOption) => (
-                                                <SelectItem key={modelOption} value={modelOption}>
+                                                <SelectItem
+                                                    key={modelOption}
+                                                    value={modelOption}
+                                                >
                                                     {modelOption}
                                                 </SelectItem>
                                             ))}
@@ -168,14 +224,22 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                 {/* Year Filter */}
                                 <div className="space-y-2">
                                     <Label htmlFor="year-filter">Year</Label>
-                                    <Select value={year} onValueChange={setYear}>
+                                    <Select
+                                        value={year}
+                                        onValueChange={setYear}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder="All years" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="all">All years</SelectItem>
+                                            <SelectItem value="all">
+                                                All years
+                                            </SelectItem>
                                             {uniqueYears.map((yearOption) => (
-                                                <SelectItem key={yearOption} value={yearOption.toString()}>
+                                                <SelectItem
+                                                    key={yearOption}
+                                                    value={yearOption.toString()}
+                                                >
                                                     {yearOption}
                                                 </SelectItem>
                                             ))}
@@ -191,7 +255,11 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                     Apply Filters
                                 </Button>
                                 {hasActiveFilters && (
-                                    <Button type="button" variant="ghost" onClick={clearFilters}>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        onClick={clearFilters}
+                                    >
                                         <X className="mr-2 h-4 w-4" />
                                         Clear Filters
                                     </Button>
@@ -201,9 +269,14 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                             {/* Active Filters Display */}
                             {hasActiveFilters && (
                                 <div className="flex flex-wrap gap-2 border-t pt-2">
-                                    <span className="text-sm text-muted-foreground">Active filters:</span>
+                                    <span className="text-sm text-muted-foreground">
+                                        Active filters:
+                                    </span>
                                     {search && (
-                                        <Badge variant="secondary" className="gap-1">
+                                        <Badge
+                                            variant="secondary"
+                                            className="gap-1"
+                                        >
                                             Search: {search}
                                             <button
                                                 type="button"
@@ -215,7 +288,10 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                         </Badge>
                                     )}
                                     {make && make !== 'all' && (
-                                        <Badge variant="secondary" className="gap-1">
+                                        <Badge
+                                            variant="secondary"
+                                            className="gap-1"
+                                        >
                                             Make: {make}
                                             <button
                                                 type="button"
@@ -227,7 +303,10 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                         </Badge>
                                     )}
                                     {model && model !== 'all' && (
-                                        <Badge variant="secondary" className="gap-1">
+                                        <Badge
+                                            variant="secondary"
+                                            className="gap-1"
+                                        >
                                             Model: {model}
                                             <button
                                                 type="button"
@@ -239,7 +318,10 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                         </Badge>
                                     )}
                                     {year && year !== 'all' && (
-                                        <Badge variant="secondary" className="gap-1">
+                                        <Badge
+                                            variant="secondary"
+                                            className="gap-1"
+                                        >
                                             Year: {year}
                                             <button
                                                 type="button"
@@ -261,9 +343,13 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-12">
                             <CarIcon className="mb-4 h-12 w-12 text-muted-foreground" />
-                            <h3 className="mb-2 text-lg font-semibold">No cars found</h3>
+                            <h3 className="mb-2 text-lg font-semibold">
+                                No cars found
+                            </h3>
                             <p className="mb-4 text-center text-muted-foreground">
-                                {hasActiveFilters ? 'Try adjusting your search criteria' : 'Get started by adding your first car'}
+                                {hasActiveFilters
+                                    ? 'Try adjusting your search criteria'
+                                    : 'Get started by adding your first car'}
                             </p>
                             <Link href={cars.create.url()}>
                                 <Button>
@@ -276,16 +362,23 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                 ) : (
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {carsData.data.map((car) => (
-                            <Card key={car.id} className="transition-shadow hover:shadow-md">
+                            <Card
+                                key={car.id}
+                                className="transition-shadow hover:shadow-md"
+                            >
                                 {/* Car Image */}
                                 {car.image_url && (
                                     <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
                                         <img
                                             src={car.image_url}
-                                            alt={car.nickname || `${car.make} ${car.model}`}
+                                            alt={
+                                                car.nickname ||
+                                                `${car.make} ${car.model}`
+                                            }
                                             className="h-full w-full object-cover"
                                             onError={(e) => {
-                                                const target = e.target as HTMLImageElement;
+                                                const target =
+                                                    e.target as HTMLImageElement;
                                                 target.style.display = 'none';
                                             }}
                                         />
@@ -294,38 +387,62 @@ export default function CarsIndex({ cars: carsData, filters }: CarsIndexProps) {
                                 <CardHeader>
                                     <div className="flex items-start justify-between">
                                         <div>
-                                            <CardTitle className="text-xl">{car.nickname || `${car.make} ${car.model}`}</CardTitle>
+                                            <CardTitle className="text-xl">
+                                                {car.nickname ||
+                                                    `${car.make} ${car.model}`}
+                                            </CardTitle>
                                             <CardDescription>
-                                                {car.make} {car.model} ({car.year})
+                                                {car.make} {car.model} (
+                                                {car.year})
                                             </CardDescription>
                                         </div>
-                                        <Badge variant="secondary">{car.modifications?.length || 0} mods</Badge>
+                                        <Badge variant="secondary">
+                                            {car.modifications?.length || 0}{' '}
+                                            mods
+                                        </Badge>
                                     </div>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-3">
                                         {car.vin && (
                                             <div className="flex items-center text-sm text-muted-foreground">
-                                                <span className="font-medium">VIN:</span>
-                                                <span className="ml-2 font-mono">{car.vin}</span>
+                                                <span className="font-medium">
+                                                    VIN:
+                                                </span>
+                                                <span className="ml-2 font-mono">
+                                                    {car.vin}
+                                                </span>
                                             </div>
                                         )}
 
-                                        {car.notes && <p className="line-clamp-2 text-sm text-muted-foreground">{car.notes}</p>}
+                                        {car.notes && (
+                                            <p className="line-clamp-2 text-sm text-muted-foreground">
+                                                {car.notes}
+                                            </p>
+                                        )}
 
                                         <div className="flex items-center justify-between pt-2">
                                             <div className="flex items-center text-sm text-muted-foreground">
                                                 <Calendar className="mr-1 h-4 w-4" />
-                                                Added {new Date(car.created_at).toLocaleDateString()}
+                                                Added{' '}
+                                                {new Date(
+                                                    car.created_at,
+                                                ).toLocaleDateString()}
                                             </div>
                                             <div className="flex gap-2">
                                                 <Link href={cars.show.url(car)}>
-                                                    <Button variant="outline" size="sm">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                    >
                                                         View
                                                     </Button>
                                                 </Link>
                                                 <Link href={cars.edit.url(car)}>
-                                                    <Button variant="ghost" size="sm">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                    >
                                                         Edit
                                                     </Button>
                                                 </Link>
